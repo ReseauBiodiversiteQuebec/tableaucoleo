@@ -15,7 +15,8 @@
 
 ## Dependencies ----
 ## Add one line by package you want to add as dependency
-usethis::use_package( "thinkr" )
+usethis::use_package( "mapselector")
+usethis::use_dev_package(package = "mapselector", remote = "ReseauBiodiversiteQuebec/mapselector")
 
 ## Add modules ----
 ## Create a module infrastructure in R/
