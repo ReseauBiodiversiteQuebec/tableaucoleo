@@ -18,6 +18,10 @@
 usethis::use_package( "mapselector")
 usethis::use_dev_package(package = "mapselector", remote = "ReseauBiodiversiteQuebec/mapselector")
 
+
+mapselector:::copy_mapselector_app_ui()
+mapselector:::copy_mapselector_app_server()
+  
 ## Add modules ----
 ## Create a module infrastructure in R/
 golem::add_module( name = "name_of_module1" ) # Name of the module

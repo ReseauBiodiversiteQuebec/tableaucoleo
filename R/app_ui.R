@@ -3,14 +3,24 @@
 #' @param request Internal parameter for `{shiny}`. 
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import mapselector
 #' @noRd
 app_ui <- function(request) {
   tagList(
-    # Leave this function for adding external resources
     golem_add_external_resources(),
-    # Your application UI logic 
-    fluidPage(
-      h1("tableauexplosites")
+    tableau_de_bord(
+      dash_title(title = "Analyse de raréfaction"), 
+      dash_sidebar(
+        badge(),
+        sliderInput("obs",
+                    "Nombre d'observations:",
+                    min = 0,
+                    max = 1000,
+                    value = 500),
+        textInput("name", "What's your name?")
+      ), 
+      dash_tabs(tab_map(),
+                tab_gen())
     )
   )
 }
@@ -30,10 +40,10 @@ golem_add_external_resources <- function(){
   )
  
   tags$head(
-    favicon(),
+    favicon(ext = 'png'),
     bundle_resources(
       path = app_sys('app/www'),
-      app_title = 'tableauexplosites'
+      app_title = 'mapselector'
     )
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert() 
