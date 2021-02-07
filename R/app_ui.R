@@ -11,16 +11,14 @@ app_ui <- function(request) {
     tableau_de_bord(
       dash_title(title = "Analyse de raréfaction"), 
       dash_sidebar(
-        badge(),
-        sliderInput("obs",
-                    "Nombre d'observations:",
-                    min = 0,
-                    max = 1000,
-                    value = 500),
-        textInput("name", "What's your name?")
+        badge(text_badge = "Exploration du sites coleo")
       ), 
-      dash_tabs(tab_map(),
-                tab_gen())
+      dash_tabs(
+          #maybe a little strange, but here we pass in the UI of a modal and the id that defines it.
+          tab_map(title = "Map",
+                  id = "map",
+                  outputFunction = mod_map_select_ui)
+      )
     )
   )
 }

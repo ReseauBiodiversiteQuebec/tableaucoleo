@@ -23,5 +23,6 @@ BugReports: https://github.com/ReseauBiodiversiteQuebec/tableauexplosites/issues
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Remotes: 
-    ReseauBiodiversiteQuebec/mapselector
+Remotes:  
+    ReseauBiodiversiteQuebec/mapselector,
+    ThinkR-open/golem
