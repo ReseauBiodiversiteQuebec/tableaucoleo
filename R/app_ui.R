@@ -9,7 +9,7 @@ app_ui <- function(request) {
   tagList(
     golem_add_external_resources(),
     tableau_de_bord(
-      dash_title(title = "Analyse de raréfaction"), 
+      dash_title(title = "Explorateur du sites"), 
       dash_sidebar(
         badge(text_badge = "Exploration du sites coleo")
       ), 

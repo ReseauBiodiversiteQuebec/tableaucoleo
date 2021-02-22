@@ -17,6 +17,7 @@
 ## Add one line by package you want to add as dependency
 usethis::use_package( "mapselector")
 usethis::use_dev_package(package = "mapselector", remote = "ReseauBiodiversiteQuebec/mapselector")
+usethis::use_dev_package(package = "golem", remote = "ThinkR-open/golem")
 
 
 mapselector:::copy_mapselector_app_ui()
@@ -30,7 +31,6 @@ golem::add_module( name = "name_of_module2" ) # Name of the module
 ## Add helper functions ----
 ## Creates ftc_* and utils_*
 golem::add_fct( "helpers" ) 
-golem::add_utils( "helpers" )
 
 ## External resources
 ## Creates .js and .css files at inst/app/www
