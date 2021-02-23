@@ -7,18 +7,19 @@
 #' @noRd
 app_ui <- function(request) {
   tagList(
+    marcel(filename = "marcel.md"),
     golem_add_external_resources(),
     tableau_de_bord(
-      dash_title(title = "Explorateur du sites"), 
+      dash_title(title = "Explorateur des sites"), 
       dash_sidebar(
-        badge(text_badge = "Exploration du sites coleo")
+        badge(text_badge = "Voila un survol des observations fait par les scientifiques du MFFP sur plusiers sites en Quebec."),
+        textInput("name", "What's your name?")
       ), 
       dash_tabs(
-          #maybe a little strange, but here we pass in the UI of a modal and the id that defines it.
-          tab_map(title = "Map",
-                  id = "map",
-                  outputFunction = mod_map_select_ui)
-      )
+        #maybe a little strange, but here we pass in the UI of a modal and the id that defines it.
+        tab_map(title = "Site Map", id = "sitemap", outputFunction = mod_map_select_ui),
+        tab_map(title = "Ouranous", id = "ouranous_map", outputFunction = mod_map_select_ui),
+        tab_gen())
     )
   )
 }

@@ -1,0 +1,126 @@
+---
+title: "visualize_meteo"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{visualize_meteo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+```{r setup}
+library(tableauexplosites)
+library(tidyverse)
+
+
+# make the path connect
+mapselector::meteo_precipitation_ECMWF %>% head(15)
+
+# as simple as repeating the first month?
+
+ecm <- mapselector::meteo_precipitation_ECMWF
+
+ecm %>% 
+  mutate(mon_num = as.numeric(Month)) %>% 
+  group_by(nn) %>% nest %>% 
+  mutate(data = map(data, ~ rbind(.x, .x[1,]))) %>% 
+  unnest %>% #head(15) %>% 
+  mutate(sel = if_else(nn == "100", "yes", "no")) %>% 
+  ggplot(aes(x = Month, y = total_mm, group = nn, alpha = sel)) + 
+  geom_path(col = "black") +
+  coord_polar(start = -pi * 1/12)
+
+precip <- mapselector::meteo_precipitation_ECMWF %>%
+  mutate(sel = if_else(nn == "100", "yes", "no")) %>% 
+  ggplot(aes(x = Month, y = total_mm, group = nn, alpha = sel)) + 
+  geom_path(col = "black") +
+  coord_polar(start = -pi * 1/12)
+
+
+precip + 
+  scale_alpha_manual(values = c(0.1, 1))
+```
+
+
+```{r}
+precip <- mapselector::meteo_precipitation_ECMWF %>%
+  mutate(sel = if_else(nn == "100", "yes", "no")) %>% 
+  ggplot(aes(x = Month, y = total_mm, group = nn)) + 
+  geom_polygon(fill = NA, col = "#3182bd30") +
+  coord_polar(start = -pi * 1/12) + 
+  theme_minimal() + 
+  labs(y = "Millimetres de precipitation", x = "Mois")
+
+
+precip + 
+  geom_polygon(fill = NA, lwd = 2, col = "#3182bd",
+               data = subset(mapselector::meteo_precipitation_ECMWF,
+                             mapselector::meteo_precipitation_ECMWF$nn == "100"))
+```
+
+
+### temperature
+
+```{r}
+
+plot_site_env <- function(type, site){
+  if (!(type %in% c("precip", "temp"))) stop("type must be either precip or temp")
+  
+  dat <- switch(type,
+                precip = mapselector::meteo_precipitation_ECMWF,
+                temp   = mapselector::mean_temperature)
+  
+  lightcol <- switch(type,
+                     precip = "#3182bd30",
+                     temp   = "#f03b2030")
+  
+  
+  boldcol <- switch(type,
+                     precip = "#3182bd",
+                     temp   = "#f03b20")
+  
+
+
+  names(dat)[3] <- "yvar"
+  
+  ylab <- switch(type,
+                 precip = "Millimètres de précipitation",
+                 temp = "Temperature (degres C)")
+  
+  lightplot <- 
+    ggplot(dat) + 
+    aes(x = Month, y = yvar, group = nn) + 
+    geom_polygon(fill = NA, col = lightcol) +
+    coord_polar(start = -pi * 1/12) + 
+    theme_minimal() + 
+    labs(title = ylab, x = "Mois", y = NULL, x = NULL)
+  
+  ## everything above here could actually be stored as app data! 
+  lightplot + 
+    geom_polygon(fill = NA, lwd = 2, col = boldcol,
+                 data = subset(dat,
+                               dat$nn == site))
+}
+
+```
+
+
+```{r}
+
+library(patchwork)
+
+
+plot_one_site <- function(site){
+  plot_site_env("precip", "100") + plot_site_env("temp", "100")
+}
+
+plot_one_site("134")
+```
+
