@@ -46,9 +46,9 @@ app_server <- function( input, output, session ){
                                  mod_environment_display_ui("siteenv"))
   )
 
-# ouranous regions --------------------------------------------------------
+# ouranos regions --------------------------------------------------------
   
-  got_clicked_our <- mod_map_select_server("ouranous_map",what_to_click = "shape",
+  got_clicked_our <- mod_map_select_server("ouranos_map",what_to_click = "shape",
                         fun = make_leaflet_map,
                         # these are arguments to make_leaflet_map
                         mapdata = mapselector::regions_simplified_Ouranos,
@@ -56,11 +56,11 @@ app_server <- function( input, output, session ){
                         region_name = "Region")
 
   
-  mod_ouranous_display_server("projection", got_clicked_our)
+  mod_ouranos_display_server("projection", got_clicked_our)
   
   mod_modal_make_server("modal_our",
                         region = got_clicked_our,
                         title_format_pattern = "Climate projection for %s",
-                        tabPanel(title = "Ouranous",
-                                 mod_ouranous_display_ui("projection")))
+                        tabPanel(title = "Ouranos",
+                                 mod_ouranos_display_ui("projection")))
 }
