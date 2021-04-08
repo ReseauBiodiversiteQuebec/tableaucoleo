@@ -17,7 +17,6 @@
 ## Add one line by package you want to add as dependency
 usethis::use_dev_package(package = "mapselector", remote = "ReseauBiodiversiteQuebec/mapselector")
 usethis::use_dev_package(package = "golem", remote = "ThinkR-open/golem")
-usethis::use_dev_package("fontawesome", remote = "rstudio/fontawesome")
 
 usethis::use_package( "patchwork")
 
