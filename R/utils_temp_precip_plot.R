@@ -33,7 +33,7 @@ plot_site_env <- function(type, site){
   
   lightplot <- 
     ggplot2::ggplot(dat) + 
-    ggplot2::aes(x = Month, y = yvar, group = nn) + 
+    ggplot2::aes(x = Month, y = yvar, group = nn, text = nn) + 
     ggplot2::geom_polygon(fill = NA, col = lightcol) +
     ggplot2::coord_polar(start = -pi * 1/12) + 
     ggplot2::theme_minimal() + 
@@ -60,7 +60,11 @@ plot_one_site <- function(site_clicked, site_df){
   stopifnot(is.data.frame(site_df))
   
   cell <- site_df[["cell_id"]][which(site_df[["site_code"]] == site_clicked)]
-  plot_site_env("precip", cell) + plot_site_env("temp", cell)
+  p_precip <- plot_site_env("precip", cell)
+  p_temper <- plot_site_env("temp", cell)
+  
+  list(precip = p_precip,
+       temper = p_temper)
 }
 
 
