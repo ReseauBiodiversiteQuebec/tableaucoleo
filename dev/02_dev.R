@@ -18,6 +18,7 @@
 usethis::use_dev_package(package = "mapselector", remote = "ReseauBiodiversiteQuebec/mapselector")
 usethis::use_dev_package(package = "golem", remote = "ThinkR-open/golem")
 
+
 usethis::use_package( "patchwork")
 
 
@@ -33,6 +34,8 @@ golem::add_module( name = "name_of_module2" ) # Name of the module
 ## Creates ftc_* and utils_*
 golem::add_fct( "helpers" ) 
 golem::add_utils("temp_precip_plot")
+
+usethis::use_r("make_site_name")
 
 ## External resources
 ## Creates .js and .css files at inst/app/www
