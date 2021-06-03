@@ -38,11 +38,11 @@ app_server <- function( input, output, session ){
                         # which you would get with chosen_region()
                         region = got_clicked_site,
                         # give the title that you want for the modal
-                        title_format_pattern = "Visualization for %s",
+                        title_format_pattern = "Informations disponibles pour %s",
                         tabPanel(title = "Observations",
                                  mod_observation_display_ui("siteobs")
                         ),
-                        tabPanel(title = "Environment",
+                        tabPanel(title = "Pluie et température",
                                  mod_environment_display_ui("siteenv"))
   )
 
@@ -60,7 +60,7 @@ app_server <- function( input, output, session ){
 
   mod_modal_make_server("modal_our",
                         region = got_clicked_our,
-                        title_format_pattern = "Climate projection for %s",
+                        title_format_pattern = "Projections climatiques pour %s",
                         tabPanel(title = "Ouranos",
                                  mod_ouranos_display_ui("projection")))
 }

@@ -29,7 +29,7 @@ plot_site_env <- function(type, site){
   
   ylab <- switch(type,
                  precip = "Millimètres de précipitation",
-                 temp = "Temperature (degres C)")
+                 temp = "Température (degrés C)")
   
   lightplot <- 
     ggplot2::ggplot(dat) + 

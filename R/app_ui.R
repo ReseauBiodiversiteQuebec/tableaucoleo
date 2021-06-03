@@ -12,13 +12,12 @@ app_ui <- function(request) {
     tableau_de_bord(
       dash_title(title = "Explorateur des sites"), 
       dash_sidebar(
-        badge(text_badge = "Voila un survol des sites sélectionnés par les scientifiques du MFFP pour compléter un suivi de la biodiversité au Québec.")
+        badge(text_badge = "Un survol des sites sélectionnés par les scientifiques du MFFP pour compléter un suivi de la biodiversité au Québec.")
       ), 
       dash_tabs(
         #maybe a little strange, but here we pass in the UI of a modal and the id that defines it.
-        tab_map(title = "Site Map", id = "sitemap", outputFunction = mod_map_select_ui),
-        tab_map(title = "Ouranos", id = "ouranos_map", outputFunction = mod_map_select_ui),
-        tab_gen()
+        tab_map(title = "Plan des sites", id = "sitemap", outputFunction = mod_map_select_ui),
+        tab_map(title = "Projections climatiques", id = "ouranos_map", outputFunction = mod_map_select_ui)
         )
     )
   )

@@ -1,3 +1,3 @@
-### Explorer les sites de COLEO! 
+## Explorez les sites de suivi du MFFP !
 
-Ce tableau de bord serve a montrer les sites du tableau de bord de Coleo
+Le ministre de la Forêt, de la Faune et des Parcs (MFFP) surveille plusieurs sites à travers le Québec. Cela nous aide à reconnaître la biodiversité et l'environnement actuels du Québec. Il nous aide aussi à surveiller attentivement les changements. 
