@@ -11,6 +11,7 @@ mod_environment_display_ui <- function(id){
   ns <- NS(id)
   tagList(
     div(
+      textOutput(ns("blurb")),
       plotOutput(ns("plot"))
     )
  
@@ -25,10 +26,13 @@ mod_environment_display_server <- function(id, sites, region){
   
   moduleServer( id, function(input, output, session){
     ns <- session$ns
- 
+    
     plot_to_show <- reactive(
       plot_one_site(site_clicked = region(), site_df = sites)
     )
+    
+    output$blurb = renderText("Les différents sites de surveillance du MFFP connaissent des précipitations et des températures différentes. 
+Chaque cercle ci-dessous montre la variation annuelle de la pluie et de la température pour un seul site. Le site sur lequel vous avez cliqué est représenté par une ligne plus épaisse.")
     
     output$plot = renderPlot(plot_to_show())
     
