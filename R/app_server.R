@@ -31,12 +31,15 @@ app_server <- function( input, output, session ){
                                  region = got_clicked_site
                                  )
   
+  # reactive that takes got_clicked_site and gives back a better name
+  clicked_site_name <- reactive(make_site_name(got_clicked_site_val = got_clicked_site(), downloaded_sites))
+  
   # display of the modal
   mod_modal_make_server("modal_make_ui_1", 
                         # this reactive value is passed inside the module
                         # note you but the reactive value here, not its value, 
                         # which you would get with chosen_region()
-                        region = got_clicked_site,
+                        region = clicked_site_name,
                         # give the title that you want for the modal
                         title_format_pattern = "Informations disponibles pour %s",
                         tabPanel(title = "Observations",
