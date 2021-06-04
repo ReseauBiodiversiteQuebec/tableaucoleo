@@ -19,7 +19,8 @@ usethis::use_dev_package(package = "mapselector", remote = "ReseauBiodiversiteQu
 usethis::use_dev_package(package = "golem", remote = "ThinkR-open/golem")
 
 
-usethis::use_package( "patchwork")
+usethis::use_package( "ggiraph")
+
 
 
 mapselector:::copy_mapselector_app_ui()

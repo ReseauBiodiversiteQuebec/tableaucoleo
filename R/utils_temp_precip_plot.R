@@ -33,15 +33,16 @@ plot_site_env <- function(type, site){
   
   lightplot <- 
     ggplot2::ggplot(dat) + 
-    ggplot2::aes(x = Month, y = yvar, group = nn, text = nn) + 
-    ggplot2::geom_polygon(fill = NA, col = lightcol) +
+    ggplot2::aes(x = Month, y = yvar, group = nn, tooltip = as.character(nn)) + 
+    ggiraph::geom_polygon_interactive(fill = NA, col = lightcol) +
     ggplot2::coord_polar(start = -pi * 1/12) + 
     ggplot2::theme_minimal() + 
     ggplot2::labs(title = ylab, x = "Mois", y = NULL, x = NULL)
   
   ## everything above here could actually be stored as app data! 
   lightplot + 
-    ggplot2::geom_polygon(fill = NA, lwd = 2, col = boldcol,
+    # ggplot2::geom_polygon
+  ggiraph::geom_polygon_interactive(fill = NA, lwd = 2, col = boldcol,
                  data = subset(dat,
                                dat$nn == site))
 }
@@ -63,8 +64,8 @@ plot_one_site <- function(site_clicked, site_df){
   p_precip <- plot_site_env("precip", cell)
   p_temper <- plot_site_env("temp", cell)
   
-  list(precip = p_precip,
-       temper = p_temper)
+  list(precip = ggiraph::ggiraph(code = print(p_precip)),
+       temper = ggiraph::ggiraph(code = print(p_temper)))
 }
 
 
