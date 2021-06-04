@@ -22,6 +22,8 @@ app_server <- function( input, output, session ){
   
   # make lookup vecs
   site_code_lookup <- make_lookup_vector(downloaded_sites_names, "site_code", "display_name")
+  cell_name_lookup <- make_lookup_vector(downloaded_sites, 
+                                         value_col = "cell.name", name_col = "cell_id")
   
   got_clicked_site <- mod_map_select_server("sitemap",
                                             what_to_click = "marker", 
@@ -43,7 +45,7 @@ app_server <- function( input, output, session ){
   
   mod_environment_display_server("siteenv",
                                  sites = downloaded_sites_names,
-                                 region = got_clicked_site
+                                 region = got_clicked_site, lookup_vec = cell_name_lookup
                                  )
   
   

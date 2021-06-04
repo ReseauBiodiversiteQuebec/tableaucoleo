@@ -7,7 +7,7 @@
 #' @return
 #' @export
 #'
-plot_site_env <- function(type, site){
+plot_site_env <- function(type, site, lookup_vec){
   if (!(type %in% c("precip", "temp"))) stop("type must be either precip or temp")
   
   dat <- switch(type,
@@ -33,7 +33,7 @@ plot_site_env <- function(type, site){
   
   lightplot <- 
     ggplot2::ggplot(dat) + 
-    ggplot2::aes(x = Month, y = yvar, group = nn, tooltip = as.character(nn)) + 
+    ggplot2::aes(x = Month, y = yvar, group = nn, tooltip = lookup_vec[as.character(nn)]) + 
     ggiraph::geom_polygon_interactive(fill = NA, col = lightcol) +
     ggplot2::coord_polar(start = -pi * 1/12) + 
     ggplot2::theme_minimal() + 
@@ -57,12 +57,12 @@ plot_site_env <- function(type, site){
 #' @export
 #'
 #' @import patchwork
-plot_one_site <- function(site_clicked, site_df){
+plot_one_site <- function(site_clicked, site_df, lookup_vec){
   stopifnot(is.data.frame(site_df))
   
   cell <- site_df[["cell_id"]][which(site_df[["display_name"]] == site_clicked)]
-  p_precip <- plot_site_env("precip", cell)
-  p_temper <- plot_site_env("temp", cell)
+  p_precip <- plot_site_env("precip", cell, lookup_vec = lookup_vec)
+  p_temper <- plot_site_env("temp", cell, lookup_vec = lookup_vec)
   
   plot_list <- list(precip = ggiraph::girafe(code = print(p_precip)),
        temper = ggiraph::girafe(code = print(p_temper)))

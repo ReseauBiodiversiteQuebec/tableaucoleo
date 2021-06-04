@@ -4,7 +4,7 @@
 \alias{plot_one_site}
 \title{Plot one site}
 \usage{
-plot_one_site(site_clicked, site_df)
+plot_one_site(site_clicked, site_df, lookup_vec)
 }
 \arguments{
 \item{site_clicked}{the site_id returned by clicking the map}

@@ -4,7 +4,7 @@
 \alias{plot_site_env}
 \title{Plot environmental  variables at at site}
 \usage{
-plot_site_env(type, site)
+plot_site_env(type, site, lookup_vec)
 }
 \arguments{
 \item{type}{type of environment. one of "precip" or "temp"}
