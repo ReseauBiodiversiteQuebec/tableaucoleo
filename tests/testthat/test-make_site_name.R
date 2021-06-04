@@ -1,42 +1,64 @@
+
+# downloaded_sites <- rcoleo::download_sites_sf()
+# test_data <- as.data.frame(downloaded_sites)[,c("cell_id", "site_code", "cell.name", "type")]
+# dput(head(test_data))
+
+test_data <- data.frame(
+  stringsAsFactors = FALSE,
+           cell_id = c(134L, 198L, 151L, 198L, 151L, 165L),
+         site_code = c("135_104_H01","148_101_F01",
+                       "137_111_H01","148_101_H01","137_111_F01","141_108_F01"),
+         cell.name = c("Mékinac (B)","Le Granit (A)",
+                       "Forêt Montmorency","Le Granit (A)",
+                       "Forêt Montmorency","Bellechasse (A)"),
+              type = c("marais","forestier",
+                       "tourbière","tourbière","forestier","forestier")
+)
+
 test_that("name formatting works fine", {
   
   # example data from dput. NOTE it is partial
-  cell_data_onerow <- structure(list(id = 1L, cell_id = 134L, off_station_code_id = NA_character_, 
-                                     site_code = "135_104_H01", type = "marais", opened_at = "2016-06-23", 
-                                     notes = NA_character_, created_at = "2018-11-07T18:49:59.242Z", 
-                                     updated_at = "2018-11-07T18:49:59.242Z", cellId = 134L, campaigns = list(
-                                       structure(list(id = c(1L, 580L, 657L), site_id = c(1L, 
-                                                                                          1L, 1L), type = c("végétation", "papilionidés", "acoustique"
-                                                                                          ), technicians = list(c("Caroline Dubé", "Pierre-Alexis Drolet"
-                                                                                          ), c("Caroline Dube", "Pierre-Alexis Drolet"), "Joelle Spooner"), 
-                                                      opened_at = c("2016-06-23", "2016-06-23", "2016-04-25"
-                                                      ), closed_at = c("2016-06-23", "2016-06-23", "2016-07-12"
-                                                      ), notes = c(NA, NA, NA), created_at = c("2018-11-07T18:50:06.355Z", 
-                                                                                               "2020-12-09T15:43:51.683Z", "2021-03-09T21:28:07.505Z"
-                                                      ), updated_at = c("2018-11-07T18:50:06.355Z", "2020-12-09T15:43:51.683Z", 
-                                                                        "2021-03-09T21:28:07.505Z"), siteId = c(1L, 1L, 1L
-                                                                        )), class = "data.frame", row.names = c(NA, 3L))), 
-                                     cell.id = 134L, cell.name = "Mékinac (B)", cell.cell_code = "135_104", 
-                                     cell.created_at = "2018-11-07T18:49:18.690Z", cell.updated_at = "2018-11-07T18:49:18.690Z", 
-                                     geom.coordinates = structure(list(structure(c(-72.2994, 46.8088
-                                     ), class = c("XY", "POINT", "sfg"))), class = c("sfc_POINT", 
-                                                                                     "sfc"), precision = 0, bbox = structure(c(xmin = -72.2994, 
-                                                                                                                               ymin = 46.8088, xmax = -72.2994, ymax = 46.8088), class = "bbox"), crs = structure(list(
-                                                                                                                                 input = NA_character_, wkt = NA_character_), class = "crs"), n_empty = 0L)), row.names = c(NA, 
-                                                                                                                                                                                                                            -1L), sf_column = "geom.coordinates", agr = structure(c(id = NA_integer_, 
-                                                                                                                                                                                                                                                                                    cell_id = NA_integer_, off_station_code_id = NA_integer_, site_code = NA_integer_, 
-                                                                                                                                                                                                                                                                                    type = NA_integer_, opened_at = NA_integer_, notes = NA_integer_, 
-                                                                                                                                                                                                                                                                                    created_at = NA_integer_, updated_at = NA_integer_, cellId = NA_integer_, 
-                                                                                                                                                                                                                                                                                    campaigns = NA_integer_, cell.id = NA_integer_, cell.name = NA_integer_, 
-                                                                                                                                                                                                                                                                                    cell.cell_code = NA_integer_, cell.created_at = NA_integer_, 
-                                                                                                                                                                                                                                                                                    cell.updated_at = NA_integer_), .Label = c("constant", "aggregate", 
-                                                                                                                                                                                                                                                                                                                               "identity"), class = "factor"), class = c("tbl_df", "tbl", "data.frame"
-                                                                                                                                                                                                                                                                                                                               ))
 
-  # throw error if no names
-  expect_error(make_site_name("135_104_H01", cell_data_onerow[,1:3]))
+  with_names <- add_site_name_df(test_data) # adds display_name
   
-  expect_equal(make_site_name("135_104_H01", cell_data_onerow), "Mékinac (B) -- marais")
+  lv <- make_lookup_vector(with_names, "display_name", "site_code")
   
+  testthat::expect_equal(lv[["135_104_H01"]], "Mékinac (B) -- marais")
+  
+  
+  testthat::expect_equal(make_site_name("135_104_H01", cell_lookup_vec = lv),
+                         "Mékinac (B) -- marais")
+  
+  
+})
+
+
+
+
+test_that("site_data gets the right, new column", {
+  
+  with_names <- add_site_name_df(test_data)
+  
+  expect_equal(with_names$display_name[1], "Mékinac (B) -- marais")
+  
+})
+
+
+test_that("lookup vector build correctly", {
+  
+  v <- data.frame(x = letters[1:5], y = 6:10)
+  
+  expect_error(make_lookup_vector(v, "x", "z"))
+  
+  one_way <- make_lookup_vector(v, "x", "y")
+
+  expect_equal(one_way[["7"]], "b")
+  
+  # handles deduplication
+  vv <- data.frame(x = c(letters[1:5], "e"), y = c(6:10,10))
+  
+  vv_vec <- make_lookup_vector(vv, "x", "y")
+  
+  expect_equal(length(vv_vec), 5)
   
 })

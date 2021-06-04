@@ -16,6 +16,11 @@ app_server <- function( input, output, session ){
 
   downloaded_sites <- rcoleo::download_sites_sf()
   
+  # add a display name column
+  
+  downloaded_sites_names <- add_site_name_df(downloaded_sites)
+  
+  
   got_clicked_site <- mod_map_select_server("sitemap",
                                             what_to_click = "marker", 
                                             fun = plot_rcoleo_sites,
