@@ -22,14 +22,14 @@ mod_environment_display_ui <- function(id){
 #' environment_display Server Functions
 #'
 #' @noRd 
-mod_environment_display_server <- function(id, sites, region){
+mod_environment_display_server <- function(id, sites, region,  lookup_vec){
   assertthat::assert_that(shiny::is.reactive(region))
   
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
     plot_to_show <- reactive(
-      plot_one_site(site_clicked = region(), site_df = sites)
+      plot_one_site(site_clicked = region(), site_df = sites,  lookup_vec = lookup_vec)
     )
     
     output$blurb = renderText("Les différents sites de surveillance du MFFP connaissent des précipitations et des températures différentes. 
@@ -66,8 +66,14 @@ env_ui <- function(request) {
 env_server <- function(input, output, session) {
   
   downloaded_sites <- rcoleo::download_sites_sf()
+  downloaded_sites_names <- add_site_name_df(downloaded_sites)
   
-  mod_environment_display_server("environment_display_ui_1", sites = downloaded_sites, region = reactive("123_89_L01"))
+  cell_name_lookup <- make_lookup_vector(downloaded_sites, 
+                                         value_col = "cell.name", name_col = "cell_id")
+  
+  mod_environment_display_server("environment_display_ui_1",
+                                 sites = downloaded_sites_names, 
+                                 region = reactive("Mékinac (B) -- marais"), lookup_vec = cell_name_lookup)
 }
 
 
