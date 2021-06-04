@@ -64,8 +64,13 @@ plot_one_site <- function(site_clicked, site_df){
   p_precip <- plot_site_env("precip", cell)
   p_temper <- plot_site_env("temp", cell)
   
-  list(precip = ggiraph::ggiraph(code = print(p_precip)),
-       temper = ggiraph::ggiraph(code = print(p_temper)))
+  plot_list <- list(precip = ggiraph::girafe(code = print(p_precip)),
+       temper = ggiraph::girafe(code = print(p_temper)))
+  
+  plot_list$precip <-  ggiraph::girafe_options(plot_list$precip, ggiraph::opts_tooltip(zindex = 9999))
+  plot_list$temper <-  ggiraph::girafe_options(plot_list$temper, ggiraph::opts_tooltip(zindex = 9999))
+  
+  return(plot_list)
 }
 
 
