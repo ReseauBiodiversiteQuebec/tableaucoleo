@@ -60,7 +60,7 @@ plot_site_env <- function(type, site){
 plot_one_site <- function(site_clicked, site_df){
   stopifnot(is.data.frame(site_df))
   
-  cell <- site_df[["cell_id"]][which(site_df[["site_code"]] == site_clicked)]
+  cell <- site_df[["cell_id"]][which(site_df[["display_name"]] == site_clicked)]
   p_precip <- plot_site_env("precip", cell)
   p_temper <- plot_site_env("temp", cell)
   

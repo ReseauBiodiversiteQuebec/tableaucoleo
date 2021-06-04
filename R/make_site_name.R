@@ -4,8 +4,6 @@
 
 make_site_name <- function(got_clicked_site_val, cell_lookup_vec){
   
-  req(got_clicked_site_val)
-  
   good_name <- cell_lookup_vec[[got_clicked_site_val]]
   
   return(good_name)
@@ -22,14 +20,14 @@ add_site_name_df <- function(cell_data){
 }
 
 
-make_lookup_vector <- function(some_df, col1, col2){
+make_lookup_vector <- function(some_df, value_col, name_col){
   # check for error
-  stopifnot(any(c(col1, col2) %in% names(some_df)))
+  stopifnot(any(c(value_col, name_col) %in% names(some_df)))
   
-  names_df <- as.data.frame(some_df)[,c(col1, col2)]
+  names_df <- as.data.frame(some_df)[,c(value_col, name_col)]
   
   dedup_names <- names_df[!duplicated(names_df), ]
   
-  xx <- setNames(dedup_names[[col1]], dedup_names[[col2]])
+  xx <- setNames(dedup_names[[value_col]], dedup_names[[name_col]])
   return(xx)
 }

@@ -20,31 +20,39 @@ app_server <- function( input, output, session ){
   
   downloaded_sites_names <- add_site_name_df(downloaded_sites)
   
+  # make lookup vecs
+  site_code_lookup <- make_lookup_vector(downloaded_sites_names, "site_code", "display_name")
   
   got_clicked_site <- mod_map_select_server("sitemap",
                                             what_to_click = "marker", 
                                             fun = plot_rcoleo_sites,
-                                            rcoleo_sites_sf = downloaded_sites)
+                                            rcoleo_sites_sf = downloaded_sites_names,
+                                            site_id_col = "display_name")
+  
+  # reactive that takes got_clicked_site and gives back the technical code
+  clicked_site_code <- reactive({
+    req(got_clicked_site())
+    make_site_name(got_clicked_site_val = got_clicked_site(), site_code_lookup)
+    })
+  
   
   # calculations for a modal triggered by this map
   mod_observation_display_server("siteobs", 
-                                 site = downloaded_sites, 
-                                 region = got_clicked_site)
+                                 site = downloaded_sites_names, 
+                                 region = clicked_site_code)
   
   mod_environment_display_server("siteenv",
-                                 sites = downloaded_sites,
+                                 sites = downloaded_sites_names,
                                  region = got_clicked_site
                                  )
   
-  # reactive that takes got_clicked_site and gives back a better name
-  clicked_site_name <- reactive(make_site_name(got_clicked_site_val = got_clicked_site(), downloaded_sites))
   
   # display of the modal
   mod_modal_make_server("modal_make_ui_1", 
                         # this reactive value is passed inside the module
                         # note you but the reactive value here, not its value, 
                         # which you would get with chosen_region()
-                        region = clicked_site_name,
+                        region = got_clicked_site,
                         # give the title that you want for the modal
                         title_format_pattern = "Informations disponibles pour %s",
                         tabPanel(title = "Observations",
