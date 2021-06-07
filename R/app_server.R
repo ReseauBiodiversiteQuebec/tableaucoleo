@@ -3,7 +3,6 @@
 #' @param input,output,session Internal parameters for {shiny}. 
 #'     DO NOT REMOVE.
 #' @import shiny
-#' @import mapselector
 #' @importFrom magrittr %>%
 #' @noRd
 app_server <- function( input, output, session ){
@@ -29,7 +28,7 @@ app_server <- function( input, output, session ){
   
   ouranos_region_lookup <- make_lookup_vector(site_region_joined, value_col = "Region", name_col = "display_name")
   
-  got_clicked_site <- mod_map_select_server("sitemap",
+  got_clicked_site <- mapselector::mod_map_select_server("sitemap",
                                             what_to_click = "marker", 
                                             fun = plot_rcoleo_sites,
                                             rcoleo_sites_sf = downloaded_sites_names,
@@ -47,9 +46,9 @@ app_server <- function( input, output, session ){
   })
   
   # calculations for a modal triggered by this map
-  mod_observation_display_server("siteobs", 
-                                 site = downloaded_sites_names, 
-                                 region = clicked_site_code)
+  mapselector::mod_observation_display_server("siteobs", 
+                                              site = downloaded_sites_names, 
+                                              region = clicked_site_code)
   
   mod_environment_display_server("siteenv",
                                  sites = downloaded_sites_names,
@@ -60,7 +59,7 @@ app_server <- function( input, output, session ){
   
   
   # display of the modal
-  mod_modal_make_server("modal_make_ui_1", 
+  mapselector::mod_modal_make_server("modal_make_ui_1", 
                         # this reactive value is passed inside the module
                         # note you but the reactive value here, not its value, 
                         # which you would get with chosen_region()
@@ -68,7 +67,7 @@ app_server <- function( input, output, session ){
                         # give the title that you want for the modal
                         title_format_pattern = "Informations disponibles pour %s",
                         tabPanel(title = "Observations",
-                                 mod_observation_display_ui("siteobs")
+                                 mapselector::mod_observation_display_ui("siteobs")
                         ),
                         tabPanel(title = "Pluie et température",
                                  mod_environment_display_ui("siteenv")),

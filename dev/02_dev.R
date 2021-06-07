@@ -31,6 +31,7 @@ mapselector:::copy_mapselector_app_server()
 golem::add_module( name = "environment_display" ) # Name of the module
 golem::add_module( name = "name_of_module2" ) # Name of the module
 golem::add_module( name = "climate_projections")
+golem::add_module( name = "mod_ouranos_display")
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*
