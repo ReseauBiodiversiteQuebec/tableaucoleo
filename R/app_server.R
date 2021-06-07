@@ -72,23 +72,8 @@ app_server <- function( input, output, session ){
                         ),
                         tabPanel(title = "Pluie et température",
                                  mod_environment_display_ui("siteenv")),
-                        tabPanel(title = "Changements climatiques",
+                        tabPanel(title = "Projections climatiques",
                                  mod_ouranos_display_ui("projection"))
   )
 
-# ouranos regions --------------------------------------------------------
-
-  got_clicked_our <- mod_map_select_server("ouranos_map",what_to_click = "shape",
-                        fun = make_leaflet_map,
-                        # these are arguments to make_leaflet_map
-                        mapdata = mapselector::regions_simplified_Ouranos,
-                        label = TRUE,
-                        region_name = "Region")
-
-
-
-  mod_modal_make_server("modal_our",
-                        region = got_clicked_our,
-                        title_format_pattern = "Projections climatiques pour %s",
-                       )
 }
