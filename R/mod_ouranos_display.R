@@ -12,6 +12,7 @@ mod_ouranos_display_ui <- function(id){
   ns <- NS(id)
   tagList(
     tags$div(
+      markdown("Cette figure montre les projections climatiques créées par Ouranos pour chaque province du Québec. Vous pouvez explorer les données plus en détail sur le [site d'Ouranos.](https://www.ouranos.ca/portraits-climatiques/#/)"),
       plotly::plotlyOutput((ns("plot")))
     )
   )
