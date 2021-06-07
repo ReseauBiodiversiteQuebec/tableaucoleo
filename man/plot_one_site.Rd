@@ -7,13 +7,15 @@
 plot_one_site(site_clicked, site_df, lookup_vec)
 }
 \arguments{
-\item{site_clicked}{the site_id returned by clicking the map}
+\item{site_clicked}{the site display_name returned by clicking the map}
 
 \item{site_df}{the data-frame of downloaded sites}
+
+\item{lookup_vec}{a vector of lookup values. should take cell_ids and map them to something.}
 }
 \value{
 a two-panel plat
 }
 \description{
-Plot one site
+This is a BADLY NAMED FUNCTION -- it plots a cell, not a site!
 }

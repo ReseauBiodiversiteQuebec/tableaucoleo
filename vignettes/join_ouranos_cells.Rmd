@@ -1,0 +1,41 @@
+---
+title: "join_ouranos_cells"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{join_ouranos_cells}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mapselector)
+
+data(regions_simplified_Ouranos)
+
+
+downloaded_sites <- rcoleo::download_sites_sf()
+
+# add a display name column
+
+downloaded_sites_names <- tableauexplosites:::add_site_name_df(downloaded_sites)
+
+library(sf)
+
+
+# need to set the crs for downloaded sites
+st_crs(downloaded_sites) <- st_crs(regions_simplified_Ouranos)
+joined_sites_our <- st_join(downloaded_sites, regions_simplified_Ouranos)
+
+
+joined_nice_names <- tableauexplosites:::add_site_name_df(joined_sites_our)
+
+tableauexplosites:::make_lookup_vector(joined_nice_names, value_col = "Region", name_col = "display_name")
+
+```

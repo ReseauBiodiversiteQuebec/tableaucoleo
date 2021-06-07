@@ -17,13 +17,17 @@ app_server <- function( input, output, session ){
   downloaded_sites <- rcoleo::download_sites_sf()
   
   # add a display name column
-  
   downloaded_sites_names <- add_site_name_df(downloaded_sites)
+  
+  # match to Ouranos
+  site_region_joined <- site_region_join(downloaded_sites)
   
   # make lookup vecs
   site_code_lookup <- make_lookup_vector(downloaded_sites_names, "site_code", "display_name")
   cell_name_lookup <- make_lookup_vector(downloaded_sites, 
                                          value_col = "cell.name", name_col = "cell_id")
+  
+  ouranos_region_lookup <- make_lookup_vector(site_region_joined, value_col = "Region", name_col = "display_name")
   
   got_clicked_site <- mod_map_select_server("sitemap",
                                             what_to_click = "marker", 
@@ -37,6 +41,10 @@ app_server <- function( input, output, session ){
     make_site_name(got_clicked_site_val = got_clicked_site(), site_code_lookup)
     })
   
+  clicked_ouran_name <- reactive({
+    req(got_clicked_site())
+    make_site_name(got_clicked_site_val = got_clicked_site(), ouranos_region_lookup)
+  })
   
   # calculations for a modal triggered by this map
   mod_observation_display_server("siteobs", 
@@ -47,6 +55,8 @@ app_server <- function( input, output, session ){
                                  sites = downloaded_sites_names,
                                  region = got_clicked_site, lookup_vec = cell_name_lookup
                                  )
+  
+  mod_ouranos_display_server("projection", clicked_ouran_name)
   
   
   # display of the modal
@@ -61,7 +71,9 @@ app_server <- function( input, output, session ){
                                  mod_observation_display_ui("siteobs")
                         ),
                         tabPanel(title = "Pluie et température",
-                                 mod_environment_display_ui("siteenv"))
+                                 mod_environment_display_ui("siteenv")),
+                        tabPanel(title = "Changements climatiques",
+                                 mod_ouranos_display_ui("projection"))
   )
 
 # ouranos regions --------------------------------------------------------
@@ -74,11 +86,9 @@ app_server <- function( input, output, session ){
                         region_name = "Region")
 
 
-  mod_ouranos_display_server("projection", got_clicked_our)
 
   mod_modal_make_server("modal_our",
                         region = got_clicked_our,
                         title_format_pattern = "Projections climatiques pour %s",
-                        tabPanel(title = "Ouranos",
-                                 mod_ouranos_display_ui("projection")))
+                       )
 }

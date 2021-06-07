@@ -30,6 +30,7 @@ mapselector:::copy_mapselector_app_server()
 ## Create a module infrastructure in R/
 golem::add_module( name = "environment_display" ) # Name of the module
 golem::add_module( name = "name_of_module2" ) # Name of the module
+golem::add_module( name = "climate_projections")
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*
@@ -57,6 +58,8 @@ usethis::use_test( "app" )
 ## Vignette ----
 usethis::use_vignette("tableauexplosites")
 usethis::use_vignette("visualize_meteo")
+usethis::use_vignette("join_ouranos_cells")
+usethis::use_r("site_region_join")
 devtools::build_vignettes()
 
 ## Code Coverage----

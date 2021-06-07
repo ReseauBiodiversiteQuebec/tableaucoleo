@@ -3,6 +3,7 @@
 export(plot_one_site)
 export(plot_site_env)
 export(run_app)
+export(site_region_join)
 import(mapselector)
 import(shiny)
 importFrom(golem,activate_js)

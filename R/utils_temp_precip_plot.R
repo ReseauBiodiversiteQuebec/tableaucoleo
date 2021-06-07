@@ -49,9 +49,12 @@ plot_site_env <- function(type, site, lookup_vec){
 
 
 #' Plot one site
+#' 
+#' This is a BADLY NAMED FUNCTION -- it plots a cell, not a site! 
 #'
-#' @param site_clicked the site_id returned by clicking the map
+#' @param site_clicked the site display_name returned by clicking the map
 #' @param site_df the data-frame of downloaded sites
+#' @param lookup_vec a vector of lookup values. should take cell_ids and map them to something.
 #'
 #' @return a two-panel plat
 #' @export
