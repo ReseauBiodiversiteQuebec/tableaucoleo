@@ -55,8 +55,6 @@ plot_site_env <- function(type, site, lookup_vec){
 #'
 #' @return a two-panel plat
 #' @export
-#'
-#' @import patchwork
 plot_one_site <- function(site_clicked, site_df, lookup_vec){
   stopifnot(is.data.frame(site_df))
   
