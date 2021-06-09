@@ -61,7 +61,7 @@ app_server <- function( input, output, session ){
   # display of the modal
   mapselector::mod_modal_make_server("modal_make_ui_1", 
                         # this reactive value is passed inside the module
-                        # note you but the reactive value here, not its value, 
+                        # note you put the reactive value here, not its value, 
                         # which you would get with chosen_region()
                         region = got_clicked_site,
                         # give the title that you want for the modal
