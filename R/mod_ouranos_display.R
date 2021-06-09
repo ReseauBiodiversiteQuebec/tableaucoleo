@@ -11,11 +11,9 @@
 mod_ouranos_display_ui <- function(id){
   ns <- NS(id)
   tagList(
-    tags$div(
-      markdown("Cette figure montre les projections climatiques créées par Ouranos pour chaque province du Québec. Vous pouvez explorer les données plus en détail sur le [site d'Ouranos.](https://www.ouranos.ca/portraits-climatiques/#/)"),
-      plotly::plotlyOutput((ns("plot")))
+    htmlOutput(ns("blurb")),
+    plotly::plotlyOutput((ns("plot")))
     )
-  )
 }
 
 #' observation_display Server Functions
@@ -28,6 +26,18 @@ mod_ouranos_display_server <- function(id, region){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
+    output$blurb <- renderUI({
+      
+      HTML(
+        tags$div(id = "blurbid", class = "blurbtext",
+                 tags$h2(paste0("Projections climatiques pour ", region())),
+                 tags$p("Cette figure montre les projections climatiques 
+                 créées par Ouranos pour chaque province du Québec. 
+                 Vous pouvez explorer les données plus en détail sur le",
+                        tags$a(href = "https://www.ouranos.ca/portraits-climatiques/#/",
+                               "site d'Ouranos.")
+      )))
+      })
     output$plot = plotly::renderPlotly(plotly::ggplotly(
       plot_ouranos_one_region(reg = region()))
     )
@@ -61,18 +71,3 @@ plot_ouranos_one_region <- function(reg){
 ## To be copied in the server
 # mod_observation_display_server("observation_display_ui_1")
 
-# testing function
-testapp_ouranos_display <- function(){
-  ui <- fluidPage(
-    mod_ouranos_display_ui("observation_display_ui_1")
-  )
-  
-  server <-  function(input, output, session) {
-    
-    mod_ouranos_display_server("observation_display_ui_1", 
-                               region = reactive("Abitibi-Témiscamingue"))
-  }
-  shinyApp(ui, server)
-}
-
-testapp_ouranos_display()
