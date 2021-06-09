@@ -27,8 +27,6 @@ mod_ouranos_display_server <- function(id, region){
     ns <- session$ns
     
     output$blurb <- renderUI({
-      
-      HTML(
         tags$div(id = "blurbid", class = "blurbtext",
                  tags$h2(paste0("Projections climatiques pour ", region())),
                  tags$p("Cette figure montre les projections climatiques 
@@ -36,7 +34,7 @@ mod_ouranos_display_server <- function(id, region){
                  Vous pouvez explorer les données plus en détail sur le",
                         tags$a(href = "https://www.ouranos.ca/portraits-climatiques/#/",
                                "site d'Ouranos.")
-      )))
+      ))
       })
     output$plot = plotly::renderPlotly(plotly::ggplotly(
       plot_ouranos_one_region(reg = region()))
