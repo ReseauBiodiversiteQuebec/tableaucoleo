@@ -61,11 +61,3 @@ plot_ouranos_one_region <- function(reg){
     ggplot2::geom_line(ggplot2::aes(x = Annee, y = Obs),inherit.aes = FALSE, 
                        data = subset_our(mapselector::ouranos_observed, reg))
 }
-
-
-## To be copied in the UI
-# mod_observation_display_ui("observation_display_ui_1")
-
-## To be copied in the server
-# mod_observation_display_server("observation_display_ui_1")
-

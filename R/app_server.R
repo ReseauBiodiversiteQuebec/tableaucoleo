@@ -25,7 +25,6 @@ app_server <- function( input, output, session ){
   site_code_lookup <- make_lookup_vector(downloaded_sites_names, "site_code", "display_name")
   cell_name_lookup <- make_lookup_vector(downloaded_sites, 
                                          value_col = "cell.name", name_col = "cell_id")
-  
   ouranos_region_lookup <- make_lookup_vector(site_region_joined, value_col = "Region", name_col = "display_name")
   
   got_clicked_site <- mapselector::mod_map_select_server("sitemap",
@@ -45,14 +44,10 @@ app_server <- function( input, output, session ){
     make_site_name(got_clicked_site_val = got_clicked_site(), ouranos_region_lookup)
   })
   
-  # calculations for a modal triggered by this map
-  mapselector::mod_observation_display_server("siteobs", 
-                                              site = downloaded_sites_names, 
-                                              region = clicked_site_code)
-  
   mod_environment_display_server("siteenv",
                                  sites = downloaded_sites_names,
-                                 region = got_clicked_site, lookup_vec = cell_name_lookup
+                                 region = got_clicked_site,
+                                 lookup_vec = cell_name_lookup
                                  )
   
   mod_ouranos_display_server("projection", clicked_ouran_name)
@@ -66,9 +61,6 @@ app_server <- function( input, output, session ){
                         region = got_clicked_site,
                         # give the title that you want for the modal
                         title_format_pattern = "Informations disponibles pour %s",
-                        tabPanel(title = "Observations",
-                                 mapselector::mod_observation_display_ui("siteobs")
-                        ),
                         tabPanel(title = "Pluie et température",
                                  mod_environment_display_ui("siteenv")),
                         tabPanel(title = "Projections climatiques",
