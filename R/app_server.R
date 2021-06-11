@@ -52,7 +52,7 @@ app_server <- function( input, output, session ){
   
   mod_ouranos_display_server("projection", clicked_ouran_name)
   
-  mod_campaign_display_server("camps", clicked_site_code)
+  mod_campaign_display_server("camps", region = clicked_site_code)
   
   
   # display of the modal

@@ -34,8 +34,10 @@ mod_campaign_display_server <- function(id, region){
     )
     
     
-    to_show <- reactive({dplyr::left_join(rcoleo::get_campaign_summary(site_code  = region()),
-                                          icos)})
+    to_show <- reactive({(rcoleo::get_campaign_summary(site_code  = region()))})
+    
+    # to_show <- reactive({dplyr::left_join(rcoleo::get_campaign_summary(site_code  = region()),
+    #                                       icos)})
     
     
     output$obs_tbl = renderTable(to_show())
