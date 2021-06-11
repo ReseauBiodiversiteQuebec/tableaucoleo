@@ -1,0 +1,27 @@
+---
+title: "visualize_campaigns"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{visualize_campaigns}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+campsum <- rcoleo::get_campaign_summary(site_code = "148_101_H01")
+
+rcoleo::get_campaign_summary()
+
+knitr::kable(campsum)
+
+
+
+
+```
