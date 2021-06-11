@@ -40,7 +40,7 @@ mod_campaign_display_server <- function(id, region){
                                           icos)})
     
     
-    output$obs_tbl = renderTable(to_show())
+    output$obs_tbl = renderTable(to_show(), sanitize.text.function = function(x) x)
     
   })
 }
