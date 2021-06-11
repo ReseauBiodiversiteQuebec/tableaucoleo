@@ -55,7 +55,8 @@ plot_ouranos_one_region <- function(reg){
     ggplot2::ggplot(ggplot2::aes(x = Annee, y = Avg, colour = rcp, fill = rcp,  ymin = Min, ymax = Max)) + 
     ggplot2::geom_line() + 
     ggplot2::facet_wrap(~var, scales = "free") + 
-    ggplot2::geom_ribbon(alpha = 0.1)
+    ggplot2::geom_ribbon(alpha = 0.1)+ 
+    ggplot2::theme_minimal()
   
   project_plot + 
     ggplot2::geom_line(ggplot2::aes(x = Annee, y = Obs),inherit.aes = FALSE, 
