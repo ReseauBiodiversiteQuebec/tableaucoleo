@@ -10,7 +10,6 @@
 mod_campaign_display_ui <- function(id){
   ns <- NS(id)
   tagList(
-    HTML("<i class='finature-collection nature-collection-plant-2'>Végétation</i>"),
     tableOutput(ns("obs_tbl"))
   )
 }
@@ -40,10 +39,10 @@ mod_campaign_display_server <- function(id, region){
                                           icos)})
     
     
-    output$obs_tbl = renderTable(to_show(), sanitize.text.function = function(x) x)
-    
-  })
-}
+    output$obs_tbl = renderTable(dplyr::select(to_show(),
+                                               type = ico, Annee = yr, Combien = count),
+                                 sanitize.text.function = function(x) x)
+})}
     
 ## To be copied in the UI
 # mod_campaign_display_ui("campaign_display_1")
