@@ -52,6 +52,8 @@ app_server <- function( input, output, session ){
   
   mod_ouranos_display_server("projection", clicked_ouran_name)
   
+  mod_campaign_display_server("camps", clicked_site_code)
+  
   
   # display of the modal
   mapselector::mod_modal_make_server("modal_make_ui_1", 
@@ -61,6 +63,9 @@ app_server <- function( input, output, session ){
                         region = got_clicked_site,
                         # give the title that you want for the modal
                         title_format_pattern = "Informations disponibles pour %s",
+                        tabPanel(title = "Campaigns sur cette site",
+                                 mod_campaign_display_ui("camps")
+                                 ),
                         tabPanel(title = "Pluie et température",
                                  mod_environment_display_ui("siteenv")),
                         tabPanel(title = "Projections climatiques",

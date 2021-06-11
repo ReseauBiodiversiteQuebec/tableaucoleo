@@ -32,6 +32,7 @@ golem::add_module( name = "environment_display" ) # Name of the module
 golem::add_module( name = "name_of_module2" ) # Name of the module
 golem::add_module( name = "climate_projections")
 golem::add_module( name = "mod_ouranos_display")
+golem::add_module( name = "campaign_display")
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*
@@ -61,6 +62,7 @@ usethis::use_vignette("tableauexplosites")
 usethis::use_vignette("visualize_meteo")
 usethis::use_vignette("join_ouranos_cells")
 usethis::use_r("site_region_join")
+usethis::use_vignette("visualize_campaigns")
 devtools::build_vignettes()
 
 ## Code Coverage----
