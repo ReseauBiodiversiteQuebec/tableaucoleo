@@ -40,7 +40,7 @@ mod_campaign_display_server <- function(id, region){
     
     
     output$obs_tbl = renderTable(dplyr::select(to_show(),
-                                               type = ico, Annee = yr, Combien = count),
+                                               Type = ico, `Année` = yr, Nombre = count),
                                  sanitize.text.function = function(x) x)
 })}
     
