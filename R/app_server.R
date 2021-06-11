@@ -63,7 +63,7 @@ app_server <- function( input, output, session ){
                         region = got_clicked_site,
                         # give the title that you want for the modal
                         title_format_pattern = "Informations disponibles pour %s",
-                        tabPanel(title = "Campaigns sur ce site",
+                        tabPanel(title = "Campagnes sur ce site",
                                  mod_campaign_display_ui("camps")
                                  ),
                         tabPanel(title = "Pluie et température",
