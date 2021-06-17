@@ -24,7 +24,7 @@ downloaded_sites <- rcoleo::download_sites_sf()
 
 # add a display name column
 
-downloaded_sites_names <- tableauexplosites:::add_site_name_df(downloaded_sites)
+downloaded_sites_names <- mapselector::add_site_name_df(downloaded_sites)
 
 library(sf)
 
@@ -34,8 +34,8 @@ st_crs(downloaded_sites) <- st_crs(regions_simplified_Ouranos)
 joined_sites_our <- st_join(downloaded_sites, regions_simplified_Ouranos)
 
 
-joined_nice_names <- tableauexplosites:::add_site_name_df(joined_sites_our)
+joined_nice_names <- mapselector::add_site_name_df(joined_sites_our)
 
-tableauexplosites:::make_lookup_vector(joined_nice_names, value_col = "Region", name_col = "display_name")
+mapselector::make_lookup_vector(joined_nice_names, value_col = "Region", name_col = "display_name")
 
 ```

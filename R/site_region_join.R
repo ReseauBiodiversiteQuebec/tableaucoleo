@@ -20,8 +20,3 @@ site_region_join <- function(site_sf_df){
 
   return(joined_nice_names)
 }
-    
-# joined_nice_names <- site_region_join(rcoleo::download_sites_sf())
-
-# tableauexplosites:::make_lookup_vector(joined_nice_names, value_col = "Region", name_col = "display_name")
-

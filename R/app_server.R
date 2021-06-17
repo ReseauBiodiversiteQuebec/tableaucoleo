@@ -16,16 +16,16 @@ app_server <- function( input, output, session ){
   downloaded_sites <- rcoleo::download_sites_sf()
   
   # add a display name column
-  downloaded_sites_names <- add_site_name_df(downloaded_sites)
+  downloaded_sites_names <- mapselector::add_site_name_df(downloaded_sites)
   
   # match to Ouranos
   site_region_joined <- site_region_join(downloaded_sites)
   
   # make lookup vecs
-  site_code_lookup <- make_lookup_vector(downloaded_sites_names, "site_code", "display_name")
-  cell_name_lookup <- make_lookup_vector(downloaded_sites, 
+  site_code_lookup <- mapselector::make_lookup_vector(downloaded_sites_names, "site_code", "display_name")
+  cell_name_lookup <- mapselector::make_lookup_vector(downloaded_sites, 
                                          value_col = "cell.name", name_col = "cell_id")
-  ouranos_region_lookup <- make_lookup_vector(site_region_joined, value_col = "Region", name_col = "display_name")
+  ouranos_region_lookup <- mapselector::make_lookup_vector(site_region_joined, value_col = "Region", name_col = "display_name")
   
   got_clicked_site <- mapselector::mod_map_select_server("sitemap",
                                             what_to_click = "marker", 
@@ -36,12 +36,12 @@ app_server <- function( input, output, session ){
   # reactive that takes got_clicked_site and gives back the technical code
   clicked_site_code <- reactive({
     req(got_clicked_site())
-    make_site_name(got_clicked_site_val = got_clicked_site(), site_code_lookup)
+    mapselector::make_site_name(got_clicked_site_val = got_clicked_site(), site_code_lookup)
     })
   
   clicked_ouran_name <- reactive({
     req(got_clicked_site())
-    make_site_name(got_clicked_site_val = got_clicked_site(), ouranos_region_lookup)
+    mapselector::make_site_name(got_clicked_site_val = got_clicked_site(), ouranos_region_lookup)
   })
   
   mod_environment_display_server("siteenv",
