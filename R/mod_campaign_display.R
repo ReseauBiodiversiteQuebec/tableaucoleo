@@ -9,15 +9,21 @@
 #' @importFrom shiny NS tagList 
 mod_campaign_display_ui <- function(id){
   ns <- NS(id)
-  tagList(
-    tableOutput(ns("obs_tbl"))
+  fluidRow(
+    column(width = 4, tableOutput(ns("obs_tbl"))),
+    column(width = 8,
+           div(
+             class = "tinymap",
+             leaflet::leafletOutput(ns("map"))
+           )
+    )
   )
 }
     
 #' campaign_display Server Functions
 #'
 #' @noRd 
-mod_campaign_display_server <- function(id, region){
+mod_campaign_display_server <- function(id, region, dl_sites_df){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
  
@@ -42,6 +48,17 @@ mod_campaign_display_server <- function(id, region){
     output$obs_tbl = renderTable(dplyr::select(to_show(),
                                                Type = ico, `Année` = yr, Nombre = count),
                                  sanitize.text.function = function(x) x)
+    
+    plot_one_point <- function(dl_sites, chosen){
+      
+      subset(dl_sites, dl_sites$site_code == chosen) %>% 
+        leaflet::leaflet(options = leaflet::leafletOptions(maxZoom = 7)) %>%  
+        leaflet::addProviderTiles(leaflet::providers$Esri.NatGeoWorldMap) %>% 
+        leaflet::addMarkers()
+      
+    }
+    
+    output$map <- leaflet::renderLeaflet(plot_one_point(dl_sites = dl_sites_df, chosen = region()))
 })}
     
 ## To be copied in the UI

@@ -16,7 +16,7 @@ site_region_join <- function(site_sf_df){
   joined_sites_our <- sf::st_join(site_sf_df, regions_simplified_Ouranos)
   
   
-  joined_nice_names <- tableauexplosites:::add_site_name_df(joined_sites_our)
+  joined_nice_names <- mapselector::add_site_name_df(joined_sites_our)
 
   return(joined_nice_names)
 }

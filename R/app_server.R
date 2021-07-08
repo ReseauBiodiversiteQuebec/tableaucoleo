@@ -33,6 +33,9 @@ app_server <- function( input, output, session ){
                                             rcoleo_sites_sf = downloaded_sites_names,
                                             site_id_col = "display_name")
   
+  
+  
+  
   # reactive that takes got_clicked_site and gives back the technical code
   clicked_site_code <- reactive({
     req(got_clicked_site())
@@ -52,7 +55,7 @@ app_server <- function( input, output, session ){
   
   mod_ouranos_display_server("projection", clicked_ouran_name)
   
-  mod_campaign_display_server("camps", region = clicked_site_code)
+  mod_campaign_display_server("camps", region = clicked_site_code, dl_sites_df = downloaded_sites_names)
   
   
   # display of the modal

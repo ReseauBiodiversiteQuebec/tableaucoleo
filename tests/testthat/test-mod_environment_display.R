@@ -12,7 +12,7 @@ test_that("multiplication works", {
   env_server <- function(input, output, session) {
     
     downloaded_sites <- rcoleo::download_sites_sf()
-    downloaded_sites_names <- add_site_name_df(downloaded_sites)
+    downloaded_sites_names <- mapselector::add_site_name_df(downloaded_sites)
     
     cell_name_lookup <- make_lookup_vector(downloaded_sites, 
                                            value_col = "cell.name",

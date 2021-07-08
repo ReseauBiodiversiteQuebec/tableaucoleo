@@ -1,0 +1,54 @@
+---
+title: "plot_one_site"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{plot_one_site}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+```{r setup}
+library(tableauexplosites)
+```
+
+
+```{r}
+
+downloaded_sites <- rcoleo::download_sites_sf()
+
+library(tidyverse)
+library(leaflet)
+downloaded_sites %>% 
+  slice(1) %>% 
+  leaflet(options = leafletOptions(maxZoom = 7)) %>%  
+  addProviderTiles(providers$Esri.NatGeoWorldMap) %>% 
+  addMarkers()
+  
+```
+
+
+wrap it in a function
+
+```{r}
+
+plot_one_point <- function(dl_sites, chosen){
+  
+  subset(dl_sites, dl_sites$site_code == chosen) %>% 
+    leaflet(options = leafletOptions(maxZoom = 7)) %>%  
+    addProviderTiles(providers$Esri.NatGeoWorldMap) %>% 
+    addMarkers()
+
+}
+
+plot_one_point(downloaded_sites, "146_133_H01")
+
+```
+

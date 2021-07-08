@@ -63,6 +63,7 @@ usethis::use_vignette("visualize_meteo")
 usethis::use_vignette("join_ouranos_cells")
 usethis::use_r("site_region_join")
 usethis::use_vignette("visualize_campaigns")
+usethis::use_vignette("plot_one_site")
 devtools::build_vignettes()
 
 ## Code Coverage----
