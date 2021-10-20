@@ -10,8 +10,8 @@ app_ui <- function(request) {
     marcel(filename = "marcel.md"),
     golem_add_external_resources(),
     tableau_de_bord(
-      dash_title(title = "Sites du programme de suivi de la biodiversité",icon="nature-collection-landscape), 
       dash_sidebar(
+	dash_title(title = "Sites du programme de suivi de la biodiversité",icon="nature-collection-landscape), 
         badge(text_badge = "Explorateur des sites sélectionnés dans le cadre du Réseau de suivi de la biodiversité du Québec.")
       ), 
       dash_tabs(
