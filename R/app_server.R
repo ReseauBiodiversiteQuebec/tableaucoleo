@@ -12,7 +12,7 @@ app_server <- function( input, output, session ){
   
 
 # sites -------------------------------------------------------------------
-
+  sf::sf_use_s2(FALSE)
   downloaded_sites <- rcoleo::download_sites_sf()
   
   # add a display name column
