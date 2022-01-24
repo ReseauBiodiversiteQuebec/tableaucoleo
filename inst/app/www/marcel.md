@@ -1,3 +1,3 @@
-## Explorez les sites de suivi du MFFP !
+## Explorez les espèces identifiées sur les site du réseau de suivi de la biodiversité du Québec
 
-Le ministre de la Forêt, de la Faune et des Parcs (MFFP) surveille plusieurs sites à travers le Québec. Cela nous aide à reconnaître la biodiversité et l'environnement actuels du Québec. Il nous aide aussi à surveiller attentivement les changements. 
+Cet interface permet d'explorer la diversité des espèces répertoriées dans les inventaires effectués dans le cadre du réseau de suivi de la biodiversité du Québec. 

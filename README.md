@@ -1,4 +1,4 @@
-# tableauexplosites
+# tableaucoleo
 
 <!-- badges: start -->
 
@@ -6,8 +6,8 @@
 
 <!-- badges: end -->
 
-This is the same as Claire's original `tableau-explo-sites` , but in the new format.
+Explorateur des données contenues dans Coléo. 
 
 ## Code of Conduct
 
-Please note that the tableauexplosites project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+Please note that the tableaucoleo project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
