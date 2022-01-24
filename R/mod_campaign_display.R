@@ -52,7 +52,7 @@ mod_campaign_display_server <- function(id, region, dl_sites_df){
     plot_one_point <- function(dl_sites, chosen){
       
       subset(dl_sites, dl_sites$site_code == chosen) %>% 
-        leaflet::leaflet(options = leaflet::leafletOptions(maxZoom = 7)) %>%  
+        leaflet::leaflet(options = leaflet::leafletOptions()) %>%  
         leaflet::addProviderTiles(leaflet::providers$Esri.WorldImagery) %>% 
         leaflet::addMarkers()
       
