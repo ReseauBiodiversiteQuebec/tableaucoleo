@@ -34,9 +34,9 @@ mod_campaign_display_server <- function(id, region, dl_sites_df){
                     "papilionidés",   HTML("<i class='fianimals animals-036-butterfly'>Papillons</i>"),
                     "acoustique",     HTML("<i class='fianimals animals-007-bat'>Chauves-souris</i>"),
                     "odonates",       HTML("<i class='ficustom custom-dragonfly'>Odonates</i>"),
-                    "insectes_sol",   HTML("<i class='finature nature-012-beetle'>Insectes du sol</i>"),
+                    "insectes_sol",   HTML("<i class='finature nature-cute-012-beetle'>Insectes du sol</i>"),
                     "zooplancton",    HTML("<i class='ficustom custom-shrimp'>Zooplancton</i>"),
-                    "décomposition_sol",  HTML("<i class='finature nature-028-tree'>Décomposition du sol</i>"),
+                    "décomposition_sol",  HTML("<i class='finature nature-cute-028-tree'>Décomposition du sol</i>"),
     )
     
     
