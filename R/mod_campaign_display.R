@@ -35,7 +35,8 @@ mod_campaign_display_server <- function(id, region, dl_sites_df){
                     "acoustique",     HTML("<i class='fianimals animals-007-bat'>Chauves-souris</i>"),
                     "odonates",       HTML("<i class='ficustom custom-dragonfly'>Odonates</i>"),
                     "insectes_sol",   HTML("<i class='finature nature-012-beetle'>Insectes du sol</i>"),
-                    "zooplancton",    HTML("<i class='ficustom custom-shrimp'>Zooplancton</i>")
+                    "zooplancton",    HTML("<i class='ficustom custom-shrimp'>Zooplancton</i>"),
+                    "décomposition_sol",  HTML("<i class='finature nature-028-tree'>Décomposition du sol</i>"),
     )
     
     
