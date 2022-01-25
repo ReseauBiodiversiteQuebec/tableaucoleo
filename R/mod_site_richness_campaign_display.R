@@ -9,7 +9,7 @@
 #' @importFrom shiny NS tagList 
 mod_site_richness_campaign_display_ui <- function(id, rich){
   ns <- NS(id)
-  tagList(uiOutput(ns('plots')),uiOutput(ns('photos')))
+  tagList(bootstrapPage(uiOutput(ns('plots')),uiOutput(ns('photos'))))
 }
 
 #' site_richness_display Server Functions
@@ -47,14 +47,14 @@ mod_site_richness_campaign_display_server <- function(id, sites, site, rich, all
               phs<-cbind(phs,photo$thumb_url)
               uiOutput(photo_name)    
               output[[photo_name]]<-renderUI({
-                div(
-                  div(sp_list[i,'taxa_name'], class="photo_species_name"),div(id = photo_name,class="top_photos",style=paste0("background: url(",photo$thumb_url,");"))
-                )
+                div(class="photo-cards",style="",div(class="top_photos",style=paste0('background: url("',photo$thumb_url,'")')),div(class="photo-card-body",h5(class="photo_species_name",sp_list[i,'taxa_name'])))
               })
             }
           }
         })
-        photos_output_list=append(list(photos_title=renderUI({div(h3('Espèces fréquemment observées sur ce site.'),class="frequent_species")})),photos_output_list)
+        if(length(photos_output_list)!=0){
+          photos_output_list=append(list(photos_title=renderUI({div(h3('Espèces fréquemment observées sur ce site.'),class="frequent_species")})),photos_output_list)
+        }
       }else{
         uiOutput(ns('aucune'))
         photos_output_list=list(aucune=renderUI({div(h3('Aucune observation pour ce site.'))}))
@@ -64,4 +64,3 @@ mod_site_richness_campaign_display_server <- function(id, sites, site, rich, all
     }) 
     })
 }
-
