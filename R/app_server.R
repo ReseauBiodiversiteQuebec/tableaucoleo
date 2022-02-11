@@ -30,7 +30,8 @@ app_server <- function(input, output, session ){
                                                          site_id_col = "display_name")
   
   
-  
+  species_data <- rcoleo::get_gen('/species_abundance_count',query=list('by_site'=TRUE))
+  site_lcbd <- calculate_lcbd(species_data)
   
   # reactive that takes got_clicked_site and gives back the technical code
   clicked_site_code <- reactive({
@@ -122,7 +123,13 @@ app_server <- function(input, output, session ){
                                             all_rich_site_campaign = all_rich_site_campaign
   )
   
-    # 
+  mod_site_lcbd_display_server("site_lcbd",
+                                     sites = downloaded_sites_names,
+                                     site = userclick$site_code,
+                                     lcbd = site_lcbd
+  )
+  
+  # 
   #   
   mod_modal_make_server("modal_make_ui_1",
                         # this reactive value is passed inside the module
@@ -140,6 +147,8 @@ app_server <- function(input, output, session ){
                                  mod_ouranos_display_ui("projection")),
                         tabPanel(title = "Espèces observées",
                                  mod_site_richness_display_ui("site_richness_campaign", this_rich_campaign)),
+                        tabPanel(title = 'Analyse de la composition',
+                                 mod_site_lcbd_display_ui("site_lcbd")),
                         tabPanel(title = "Comparer avec d'autres sites",
                                  mod_site_comparison_display_ui("site_comparison", site_select_options))
   )
