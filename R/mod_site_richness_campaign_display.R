@@ -23,6 +23,7 @@ mod_site_richness_campaign_display_server <- function(id, sites, site, rich, all
     output$plots <- renderUI({
       plot_output_list=list()
       for(i in rich()$campaign_type){
+        print(i)
         value <- as.integer(rich()[rich()$campaign_type==i,"richness"])
         comp <- as.integer(all_rich[all_rich$campaign_type==i,'richness'])
         plot_name <- paste0("species_category","_richness_", i)

@@ -24,10 +24,22 @@ mod_site_lcbd_display_server <- function(id, sites, site, lcbd) {
       plot_output_list=list()
       lc <- lcbd[lcbd$site_code==site(),]
       for(i in lc$campaign_type){
+        lcc <- lcbd |> dplyr::filter(campaign_type==i)
         value <- 100*lc[lc$campaign_type==i,'lcbd']
-        comp <- 100
+        comp <- 100/nrow(lcbd[lcbd$campaign_type==i,])
         plot_name <- paste0("species_category","_lcbd_", i)
-        plot_output_list<-append(plot_output_list,list(plot_name=gauge_plot(i, "campaign_type", value, comp)))  
+        #plot_output_list<-append(plot_output_list,list(plot_name=gauge_plot(i, "campaign_type", value, comp)))
+        colors=rep('#ececec',nrow(lcbd))
+        colors[lcc$site_code==site()]='#55aabb'
+        pl <- lcc |> plotly::plot_ly(labels = ~site_code, values = ~lcbd) |> 
+          plotly::add_pie(hole=0.6,marker = list(colors = colors,line = list(color = '#FFFFFF', width = 1), textinfo='none'), textinfo='none') |>
+          plotly::layout(title = mapselector::campaign_types_format(i),  showlegend = F,
+                 xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+                 yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)) |>
+          plotly::add_text(x=0.5,y=0.5,text=mapselector::campaign_types_icons(i))
+        plot_output_list<-append(plot_output_list,list(
+          plot_name=div(pl,class='lcdb_donut',style=c('float:left;','width:200px;','height:200px;'))
+        ))
       }
       tagList(plot_output_list)
     })

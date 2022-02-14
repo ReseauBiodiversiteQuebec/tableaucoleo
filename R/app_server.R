@@ -71,14 +71,6 @@ app_server <- function(input, output, session ){
                                                  downloaded_site_name = downloaded_sites_names)
 
 
-# print out (just for checking) -------------------------------------------
-
-  # 
-  # observeEvent(userclick$display_name(), cat(paste0("site name: ", userclick$display_name(), "\n",
-  #                                                   "site code: ", userclick$site_code(), "\n")))
-  
-
-
 # download richness info ------------------------------------------------
   
   this_rich_spcat <- reactive({
@@ -153,19 +145,5 @@ app_server <- function(input, output, session ){
                                  mod_site_comparison_display_ui("site_comparison", site_select_options))
   )
 
-    # sites -------------------------------------------------------------------
-  
-  # output the clickable site map
-  #s_by_s <- mod_campaign_data_display("selcamp")
-  
-  #output$rank_abd_plot <- renderPlot({
-  #  rank_abundance_plot(s_by_s())
-  #})
-  
-  #output$spp_by_site_plot <- renderPlot({plot_spp_site_tile(s_by_s())})
-  
-  
-  # get the observations from this site
-  
-  # observe(cat("foo", str(out$site_species()), "\n")) %>% bindEvent(out$site_species())
+
 }
