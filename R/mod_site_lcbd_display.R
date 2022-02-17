@@ -31,12 +31,17 @@ mod_site_lcbd_display_server <- function(id, sites, site, lcbd) {
         #plot_output_list<-append(plot_output_list,list(plot_name=gauge_plot(i, "campaign_type", value, comp)))
         colors=rep('#ececec',nrow(lcbd))
         colors[lcc$site_code==site()]='#55aabb'
+        if(value>comp){
+          textcolor="#3fa512"
+        }else{
+          textcolor="#a51212"
+        }
         pl <- lcc |> plotly::plot_ly(labels = ~site_code, values = ~lcbd,width=200,height=200) |> 
           plotly::add_pie(hole=0.6,marker = list(colors = colors,line = list(color = '#FFFFFF', width = 1), textinfo='none'), textinfo='none') |>
           plotly::layout(title = mapselector::campaign_types_format(i),  showlegend = F,
                  xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
                  yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)) |>
-          plotly::add_text(x=0.5,y=0.5,text=format(round(value, 1), nsmall = 1))
+          plotly::add_text(x=0.5,y=0.5,text=paste0(format(round(value, 1), nsmall = 1),'%'),color=textcolor)
         plot_output_list<-append(plot_output_list,list(
           plot_name=div(pl,class='lcdb_donut',style=c('float:left;','width:200px;','height:200px;'))
         ))
