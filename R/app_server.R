@@ -70,7 +70,8 @@ app_server <- function(input, output, session ){
   userclick <- mod_map_richness_campaigns_server("sitemap", 
                                                  downloaded_site_name = downloaded_sites_names)
 
-
+  mod_sunburst_server("sunburst",species_data)
+  
 # download richness info ------------------------------------------------
   
   this_rich_spcat <- reactive({
@@ -144,6 +145,5 @@ app_server <- function(input, output, session ){
                         tabPanel(title = "Comparer avec d'autres sites",
                                  mod_site_comparison_display_ui("site_comparison", site_select_options))
   )
-
 
 }

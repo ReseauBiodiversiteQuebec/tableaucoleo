@@ -18,12 +18,12 @@ app_ui <- function(request) {
       dash_tabs(
         #maybe a little strange, but here we pass in the UI of a modal and the id that defines it.
         # tab_map(title = "Vis", id = "selcamp", outputFunction = mapselector::mod_campaign_type_map_plot),
-        mapselector::tab_gen(title = "Sites",
+        mapselector::tab_gen(title = "Sites du réseau",
                              outputFunction = mod_map_richness_campaigns_ui, 
                              id = "sitemap"),
-        mapselector::tab_gen(title = "Espèces",
-                             outputFunction = plotOutput,
-                             id = "spp_by_site_plot")
+        mapselector::tab_gen(title = "Diversité taxonomique",
+                             outputFunction = mod_sunburst_ui,
+                             id = "sunburst")
         )
     )
   )

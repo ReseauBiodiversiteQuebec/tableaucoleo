@@ -21,7 +21,7 @@ mod_site_lcbd_display_server <- function(id, sites, site, lcbd) {
   moduleServer(id, function(input, output, session){
     ns <- session$ns
     output$plots <- renderUI({
-      plot_output_list=list()
+      plot_output_list=list(h3=h3('Contribution à la biodiversité'))
       lc <- lcbd[lcbd$site_code==site(),]
       for(i in lc$campaign_type){
         lcc <- lcbd |> dplyr::filter(campaign_type==i)
@@ -36,7 +36,7 @@ mod_site_lcbd_display_server <- function(id, sites, site, lcbd) {
           plotly::layout(title = mapselector::campaign_types_format(i),  showlegend = F,
                  xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
                  yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)) |>
-          plotly::add_text(x=0.5,y=0.5,text=icon(name=NULL, class="fianimals animals-036-butterfly",verify_fa=FALSE))
+          plotly::add_text(x=0.5,y=0.5,text=format(round(value, 1), nsmall = 1))
         plot_output_list<-append(plot_output_list,list(
           plot_name=div(pl,class='lcdb_donut',style=c('float:left;','width:200px;','height:200px;'))
         ))
