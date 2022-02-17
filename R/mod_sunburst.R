@@ -10,7 +10,7 @@
 mod_sunburst_ui <- function(id){
   ns <- NS(id)
   tagList(
-    shinycssloaders::withSpinner(plotly::plotlyOutput(ns("sunburst_plot"),width='95%',height='95%'))
+    shinycssloaders::withSpinner(plotly::plotlyOutput(ns("sunburst_plot"),width='95%',height='95%'),proxy.height = '100%',color='#538887',type=7,custom.css=FALSE)
   )
 }
 
@@ -34,7 +34,7 @@ mod_sunburst_server <- function(id, species_data){
         ) |>
         plotly::layout(
           sunburstcolorway = c("#538887", "#7bb5b1"),
-          extendsunburstcolors = TRUE
+          extendsunburstcolors = FALSE
         )
     })
   })
