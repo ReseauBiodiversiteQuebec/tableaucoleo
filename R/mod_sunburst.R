@@ -10,7 +10,7 @@
 mod_sunburst_ui <- function(id){
   ns <- NS(id)
   tagList(
-    plotly::plotlyOutput(ns("sunburst_plot"),width='95%',height='95%')
+    shinycssloaders::withSpinner(plotly::plotlyOutput(ns("sunburst_plot"),width='95%',height='95%'))
   )
 }
 

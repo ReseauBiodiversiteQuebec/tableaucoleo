@@ -8,7 +8,7 @@ app_ui <- function(request) {
   tagList(
     mapselector::marcel(filename = "marcel.md"),
     golem_add_external_resources(),
-    tableau_de_bord(
+    shinycssloaders::withSpinner(tableau_de_bord(
       dash_sidebar(
         dash_title(title = "Réseau de suivi de la biodiversité", icon="nature-collection-trees-1"),
         badge(text_badge="Cet interface permet d'explorer la diversité des espèces répertoriées dans les inventaires effectués dans le cadre du réseau de suivi de la biodiversité du Québec.")
@@ -25,7 +25,7 @@ app_ui <- function(request) {
                              outputFunction = mod_sunburst_ui,
                              id = "sunburst")
         )
-    )
+    ))
   )
 }
 
