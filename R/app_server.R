@@ -32,7 +32,7 @@ app_server <- function(input, output, session ){
   
   species_data <- rcoleo::get_gen('/species_abundance_count',query=list('by_site'=TRUE))
   site_lcbd <- calculate_lcbd(species_data)
-  
+  rarefaction <- rarefaction_create_data(species_data)
   # reactive that takes got_clicked_site and gives back the technical code
   clicked_site_code <- reactive({
     req(got_clicked_site())
@@ -105,7 +105,8 @@ app_server <- function(input, output, session ){
                                    sites = downloaded_sites_names,
                                    site = userclick$site_code,
                                    rich = this_rich_campaign,
-                                   all_rich = all_rich_campaign
+                                   all_rich = all_rich_campaign,
+                                   rarefaction = rarefaction
   )
 
   mod_site_comparison_display_server("site_comparison",

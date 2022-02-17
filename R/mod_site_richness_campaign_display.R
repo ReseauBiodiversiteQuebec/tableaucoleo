@@ -15,7 +15,7 @@ mod_site_richness_campaign_display_ui <- function(id, rich){
 #' site_richness_display Server Functions
 #'
 #' @noRd 
-mod_site_richness_campaign_display_server <- function(id, sites, site, rich, all_rich) {
+mod_site_richness_campaign_display_server <- function(id, sites, site, rich, all_rich, rarefaction) {
   assertthat::assert_that(shiny::is.reactive(site))
   
   moduleServer(id, function(input, output, session){
@@ -25,7 +25,8 @@ mod_site_richness_campaign_display_server <- function(id, sites, site, rich, all
       for(i in rich()$campaign_type){
         print(i)
         value <- as.integer(rich()[rich()$campaign_type==i,"richness"])
-        comp <- as.integer(all_rich[all_rich$campaign_type==i,'richness'])
+        #comp <- as.integer(all_rich[all_rich$campaign_type==i,'richness'])
+        comp <- rarefaction |> dplyr::filter(campaign_type == i & Site == site() & Diversity == 'Species richness') |> dplyr::select(Estimator)
         plot_name <- paste0("species_category","_richness_", i)
         plot_output_list<-append(plot_output_list,list(plot_name=gauge_plot(i, "campaign_type", value, comp)))  
       }
