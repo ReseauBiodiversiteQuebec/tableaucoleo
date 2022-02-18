@@ -32,9 +32,9 @@ mod_site_lcbd_display_server <- function(id, sites, site, lcbd) {
         colors=rep('#ececec',nrow(lcbd))
         colors[lcc$site_code==site()]='#55aabb'
         if(value>comp){
-          textcolor="#3fa512"
+          textcolor=I("#3fa512")
         }else{
-          textcolor="#a51212"
+          textcolor=I("#a51212")
         }
         pl <- lcc |> plotly::plot_ly(labels = ~site_code, values = ~lcbd,width=200,height=200) |> 
           plotly::add_pie(hole=0.6,marker = list(colors = colors,line = list(color = '#FFFFFF', width = 1), textinfo='none'), textinfo='none') |>
