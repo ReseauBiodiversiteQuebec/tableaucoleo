@@ -3,9 +3,8 @@
 #'
 #' @return
 #' @export
-rarefaction_create_data <- function(species_data) {
-  f<-file.info('rarefaction_data.RDS')
-  if((Sys.time()-f$mtime) > 1440){
+rarefaction_create_data <- function(species_data, refresh=FALSE) {
+  if(refresh){
     for (c in unique(species_data$campaign_type)){
       # Remove complexes
       species_data<-species_data[!grepl('|',species_data$taxa_name, fixed = TRUE),] 
@@ -27,9 +26,9 @@ rarefaction_create_data <- function(species_data) {
       }
     }
     out$Site <- gsub('X', '', out$Site)
-    saveRDS(out,'rarefaction_data.RDS')
+    saveRDS(out,'data/rarefaction_data.RDS')
   }else{
-    out<-readRDS('rarefaction_data.RDS')
+    out<-readRDS('data/rarefaction_data.RDS')
   }
   return(out)
 }

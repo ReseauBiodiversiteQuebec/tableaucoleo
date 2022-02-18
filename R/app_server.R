@@ -11,7 +11,20 @@ app_server <- function(input, output, session ){
   sf::sf_use_s2(FALSE)
   downloaded_sites <- rcoleo::download_sites_sf()
   
-  # add a display name column
+  s<-readRDS('data/sites.RDS')
+  if(nrow(s)==nrow(downloaded_sites)){
+    refresh_sites=FALSE
+  }else{
+    saveRDS(downloaded_sites,'data/sites.RDS')
+  }
+  campaign_ids<-readRDS('data/campaign_ids.RDS')
+  cids<-unlist(lapply(downloaded_sites$campaigns,function(x){x$id}))
+  if(all(campaign_ids %in% cids)) {
+    refresh_campaigns=FALSE
+  }else{
+    saveRDS(cids,'data/campaign_ids.RDS')
+  }
+    # add a display name column
   downloaded_sites_names <- mapselector::add_site_name_df(downloaded_sites)
   
   # match to Ouranos
@@ -29,10 +42,16 @@ app_server <- function(input, output, session ){
                                                          rcoleo_sites_sf = downloaded_sites_names,
                                                          site_id_col = "display_name")
   
+  if(refresh_campaigns){
+    species_data <- rcoleo::get_gen('/species_abundance_count',query=list('by_site'=TRUE))
+    saveRDS(species_data,'data/species_data.RDS')
+  }else{
+    species_data <- readRDS('data/species_data.RDS')
+  }
+  site_lcbd <- calculate_lcbd(species_data, refresh_campaigns)
+  rarefaction <- rarefaction_create_data(species_data, refresh_campaigns)
+  site_env <- get_site_environment(downloaded_sites, refresh_sites)
   
-  species_data <- rcoleo::get_gen('/species_abundance_count',query=list('by_site'=TRUE))
-  site_lcbd <- calculate_lcbd(species_data)
-  rarefaction <- rarefaction_create_data(species_data)
   # reactive that takes got_clicked_site and gives back the technical code
   clicked_site_code <- reactive({
     req(got_clicked_site())
@@ -52,7 +71,7 @@ app_server <- function(input, output, session ){
   
   mod_ouranos_display_server("projection", clicked_ouran_name)
   
-  mod_campaign_display_server("camps", region = clicked_site_code, dl_sites_df = downloaded_sites_names)
+  mod_campaign_display_server("camps", region = clicked_site_code, dl_sites_df = downloaded_sites_names, site_env)
   
   # help modules ------------------------------------------------------------
   
@@ -70,7 +89,7 @@ app_server <- function(input, output, session ){
   userclick <- mod_map_richness_campaigns_server("sitemap", 
                                                  downloaded_site_name = downloaded_sites_names)
 
-  mod_sunburst_server("sunburst",species_data)
+  mod_sunburst_server("sunburst",species_data, refresh_campaigns)
   
 # download richness info ------------------------------------------------
   

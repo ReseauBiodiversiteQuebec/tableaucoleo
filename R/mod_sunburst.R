@@ -18,13 +18,13 @@ mod_sunburst_ui <- function(id){
 #'
 #' @param species_data sites x species count summary table
 #'
-mod_sunburst_server <- function(id, species_data){
+mod_sunburst_server <- function(id, species_data, refresh){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     output$sunburst_plot<-plotly::renderPlotly({
       print(species_data)
       ns <- session$ns
-      sun_data=sunburst_create_data()
+      sun_data <- sunburst_create_data(species_data, refresh)
       plotly::plot_ly() |>
         plotly::add_trace(
           labels = sun_data$classification_path,

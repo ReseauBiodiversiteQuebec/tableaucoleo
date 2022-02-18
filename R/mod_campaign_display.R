@@ -10,11 +10,11 @@
 mod_campaign_display_ui <- function(id){
   ns <- NS(id)
   fluidRow(
-    column(width = 4, tableOutput(ns("obs_tbl"))),
+    column(width = 4, tableOutput(ns("obs_tbl")), tableOutput(ns("env_tbl"))),
     column(width = 8,
            div(
              class = "tinymap",
-             leaflet::leafletOutput(ns("map"))
+             leaflet::leafletOutput(ns("map"), height=550)
            )
     )
   )
@@ -23,7 +23,7 @@ mod_campaign_display_ui <- function(id){
 #' campaign_display Server Functions
 #'
 #' @noRd 
-mod_campaign_display_server <- function(id, region, dl_sites_df){
+mod_campaign_display_server <- function(id, region, dl_sites_df, site_env){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
  
@@ -49,7 +49,16 @@ mod_campaign_display_server <- function(id, region, dl_sites_df){
     output$obs_tbl = renderTable(dplyr::select(to_show(),
                                                Type = ico, `Année` = yr, Nombre = count),
                                  sanitize.text.function = function(x) x)
+
+    si <- reactive({site_env |> dplyr::filter(site_code==region()) |> dplyr::select(GHMTS,bio5,bio6,bio12) |> 
+        dplyr::mutate(bio5=bio5*0.1-273.15,bio6=bio6*0.1-273.15,bio12=bio12*0.1) |>
+        dplyr::rename('Indice de modifications humaines'=GHMTS, 'Température moyenne du mois le plus chaud (C)'=bio5, 'Température moyenne du mois le plus froid (C)'=bio6,'Précipitation annuelle (km/m²)'=bio12) |> 
+        tidyr::pivot_longer(everything(),names_to='variable')})
     
+    output$env_tbl = renderTable(dplyr::select(si(),
+                                               Variable=variable, `Valeur` = value),
+                                 sanitize.text.function = function(x) x)
+        
     plot_one_point <- function(dl_sites, chosen){
       
       subset(dl_sites, dl_sites$site_code == chosen) %>% 

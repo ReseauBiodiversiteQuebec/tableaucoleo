@@ -4,9 +4,8 @@
 #'
 #' @return
 #' @export
-calculate_lcbd <- function(species_data){
-  f<-file.info('lcbd_data.RDS')
-  if((Sys.time()-f$mtime) > 1440){
+calculate_lcbd <- function(species_data, refresh=FALSE){
+  if(refresh){
     campaign_types=unique(species_data$campaign_type)
     species_data$cnt=as.integer(species_data$cnt)
     out=list()
@@ -23,9 +22,9 @@ calculate_lcbd <- function(species_data){
       out[[camp]]=data.table::data.table(site_code=row.names(mat),campaign_type=camp,lcbd=adespatial::LCBD.comp(beta$rich, sqrt.D=FALSE)$LCBD)
     }
     out=data.table::rbindlist(out)
-    saveRDS(out,'lcbd_data.RDS')
+    saveRDS(out,'data/lcbd_data.RDS')
     return(out)
   }else{
-    return(readRDS('lcbd_data.RDS'))
+    return(readRDS('data/lcbd_data.RDS'))
   }
 }

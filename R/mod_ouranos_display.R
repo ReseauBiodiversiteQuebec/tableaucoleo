@@ -30,7 +30,7 @@ mod_ouranos_display_server <- function(id, region){
         tags$div(id = "blurbid", class = "blurbtext",
                  tags$h2(paste0("Projections climatiques pour ", region())),
                  tags$p("Cette figure montre les projections climatiques 
-                 créées par Ouranos pour chaque province du Québec. 
+                 créées par Ouranos pour chaque région du Québec. 
                  Vous pouvez explorer les données plus en détail sur le",
                         tags$a(href = "https://www.ouranos.ca/portraits-climatiques/#/",
                                "site d'Ouranos.")

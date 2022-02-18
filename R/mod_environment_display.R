@@ -34,7 +34,7 @@ mod_environment_display_server <- function(id, sites, region,  lookup_vec){
     
     output$blurb <- renderUI({
       tags$div(id = "blurbid", class = "blurbtext",
-               tags$h2(paste0("Projections climatiques pour ", region())),
+               tags$h2(paste0("Moyennes de pluie et température pour ", region())),
                tags$p("Les différents sites de surveillance du MFFP connaissent des précipitations et des températures différentes. 
 Chaque cercle ci-dessous montre la variation annuelle de la pluie et de la température pour un seul site. Le site sur lequel vous avez cliqué est représenté par une ligne plus épaisse.")
                )})

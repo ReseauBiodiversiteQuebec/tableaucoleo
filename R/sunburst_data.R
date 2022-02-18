@@ -4,9 +4,8 @@
 #'
 #' @return
 #' @export
-sunburst_create_data <- function(species_data){
-  f<-file.info('sun_data.RDS')
-  if((Sys.time()-f$mtime) > 1440){
+sunburst_create_data <- function(species_data, refresh=FALSE){
+  if(refresh){
     names <- unique(species_data[!grepl('|',species_data$taxa_name, fixed = TRUE),'taxa_name'])
     taxo <- taxize::gnr_resolve(names$taxa_name,fields='all',data_source_ids = c(1),best_match_only = TRUE)
     long_hier <- taxo |> tidyr::separate_rows(classification_path,sep="\\|")
@@ -27,9 +26,9 @@ sunburst_create_data <- function(species_data){
     }
     sun_data<-sun_data[!sun_data$classification_path=='Biota',]
     sun_data[sun_data$parent=='Biota','parent'] <- ''
-    saveRDS(sun_data,'sun_data.RDS')
+    saveRDS(sun_data,'data/sun_data.RDS')
   }else{
-    sun_data<-readRDS('sun_data.RDS')
+    sun_data<-readRDS('data/sun_data.RDS')
   }
   return(sun_data)
 }
