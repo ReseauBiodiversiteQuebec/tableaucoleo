@@ -11,17 +11,21 @@ app_server <- function(input, output, session ){
   sf::sf_use_s2(FALSE)
   downloaded_sites <- rcoleo::download_sites_sf()
   
+  refresh<-FALSE
+  
   s<-readRDS('data/sites.RDS')
-  if(nrow(s)==nrow(downloaded_sites)){
+  if(nrow(s)==nrow(downloaded_sites) & !refresh){
     refresh_sites=FALSE
   }else{
+    refresh_sites=TRUE
     saveRDS(downloaded_sites,'data/sites.RDS')
   }
   campaign_ids<-readRDS('data/campaign_ids.RDS')
   cids<-unlist(lapply(downloaded_sites$campaigns,function(x){x$id}))
-  if(all(campaign_ids %in% cids)) {
+  if(all(campaign_ids %in% cids & !refresh)) {
     refresh_campaigns=FALSE
   }else{
+    refresh_campaigns=TRUE
     saveRDS(cids,'data/campaign_ids.RDS')
   }
     # add a display name column
@@ -63,6 +67,8 @@ app_server <- function(input, output, session ){
     mapselector::make_site_name(got_clicked_site_val = got_clicked_site(), ouranos_region_lookup)
   })
   
+  mod_main_stats_server('main_stats', downloaded_sites_names, species_data=species_data)
+  mod_random_photo_server('random_photo',species_data)
   mod_environment_display_server("siteenv",
                                  sites = downloaded_sites_names,
                                  region = got_clicked_site,

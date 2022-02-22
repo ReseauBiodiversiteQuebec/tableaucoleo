@@ -4,4 +4,4 @@
 
 pkgload::load_all(export_all = FALSE, helpers = FALSE, attach_testthat = FALSE)
 options( "golem.app.prod" = TRUE)
-tableaucoleo::run_app() # add parameters here (if any)
+tableaucoleo::run_app(options = list(launch.browser = TRUE)) # add parameters here (if any)

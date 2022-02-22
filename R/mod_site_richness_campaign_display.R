@@ -49,7 +49,7 @@ mod_site_richness_campaign_display_server <- function(id, sites, site, rich, all
               phs<-cbind(phs,photo$thumb_url)
               uiOutput(photo_name)    
               output[[photo_name]]<-renderUI({
-                div(class="photo-cards",style="",div(class="top_photos",style=paste0('background: url("',photo$thumb_url,'")')),div(class="photo-card-body",h5(class="photo_species_name",sp_list[i,'taxa_name'])))
+                photo_card(photo$thumb_url,sp_list[i,'taxa_name'])
               })
             }
           }

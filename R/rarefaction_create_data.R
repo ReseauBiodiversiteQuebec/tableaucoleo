@@ -13,11 +13,12 @@ rarefaction_create_data <- function(species_data, refresh=FALSE) {
         species_data[species_data$value>0 & species_data$value<1 & species_data$campaign_type==c  & !is.na(species_data$value),'value'] = species_data[species_data$value>0 & species_data$value<1 & species_data$campaign_type==c  & !is.na(species_data$value),'value']*100 
         d=species_data |> dplyr::filter(campaign_type==c) |> tidyr::pivot_wider(id_cols=taxa_name, names_from=site_code,values_from=value,values_fill=0)
       }else{
+        species_data$cnt <- as.integer(species_data$cnt)
         d=species_data |> dplyr::filter(campaign_type==c) |> tidyr::pivot_wider(id_cols=taxa_name, names_from=site_code,values_from=cnt,values_fill=0)
       }
       d=d[,-1]
       d=data.frame(d)
-      i=iNEXT(d,datatype="abundance")$AsyEst
+      i=iNEXT::iNEXT(d,datatype="abundance")$AsyEst
       i$campaign_type=c
       if(c!=unique(species_data$campaign_type)[1]){
         out=rbind(out,i)

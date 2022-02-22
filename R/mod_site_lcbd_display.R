@@ -24,24 +24,27 @@ mod_site_lcbd_display_server <- function(id, sites, site, lcbd) {
       plot_output_list=list(h3=h3('Contribution à la biodiversité'))
       lc <- lcbd[lcbd$site_code==site(),]
       for(i in lc$campaign_type){
-        lcc <- lcbd |> dplyr::filter(campaign_type==i)
+        lcc <- lcbd |> dplyr::filter(campaign_type==i) |> dplyr::left_join(sites,by=c('site_code'))
         value <- 100*lc[lc$campaign_type==i,'lcbd']
         comp <- 100/nrow(lcbd[lcbd$campaign_type==i,])
         plot_name <- paste0("species_category","_lcbd_", i)
         #plot_output_list<-append(plot_output_list,list(plot_name=gauge_plot(i, "campaign_type", value, comp)))
         colors=rep('#ececec',nrow(lcbd))
-        colors[lcc$site_code==site()]='#55aabb'
+        colors[lcc$site_code==site()]='#7bb5b1'
         if(value>comp){
-          textcolor=I("#3fa512")
+          textcolor=I("#538887")
+          text='+'
         }else{
-          textcolor=I("#a51212")
+          textcolor=I("#538887")
+          text='-'
         }
-        pl <- lcc |> plotly::plot_ly(labels = ~site_code, values = ~lcbd,width=200,height=200) |> 
+        pl <- lcc |> plotly::plot_ly(labels = ~display_name, values = ~lcbd,width=200,height=200) |> 
           plotly::add_pie(hole=0.6,marker = list(colors = colors,line = list(color = '#FFFFFF', width = 1), textinfo='none'), textinfo='none') |>
           plotly::layout(title = mapselector::campaign_types_format(i),  showlegend = F,
                  xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-                 yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)) |>
-          plotly::add_text(x=0.5,y=0.5,text=paste0(format(round(value, 1), nsmall = 1),'%'),color=textcolor)
+                 yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))|>
+          plotly::add_text(x=0.5,y=0.5,text=text,color=textcolor, size=2)
+          
         plot_output_list<-append(plot_output_list,list(
           plot_name=div(pl,class='lcdb_donut',style=c('float:left;','width:200px;','height:200px;'))
         ))
