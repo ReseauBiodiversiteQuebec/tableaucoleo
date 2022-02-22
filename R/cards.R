@@ -14,6 +14,6 @@ stats_card <- function(number, text, icon, color_class='main-1'){
 #' @return
 #' @export
 # export
-photo_card <- function(url,name,text=''){
-  div(class="photo-cards",style="",div(class="top_photos",style=paste0('background: url("',url,'")')),div(class="photo-card-body",h5(class="photo_species_name",name),div(class='photo_main_text',text)))
+photo_card <- function(url,name,text='',href='#'){
+  div(class="photo-cards",style="",a(href=href,target='_blank',div(class="top_photos",style=paste0('background: url("',url,'")')),div(class="photo-card-body",h5(class="photo_species_name",name),div(class='photo_main_text',text))))
 }

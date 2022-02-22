@@ -29,7 +29,7 @@ mod_random_photo_server <- function(id, species_data){
     }
     cnt<-species_data |> dplyr::filter(taxa_name ==  sp_list[ind[i]]) |> nrow()
     output$photo<-renderUI({div(style=list('float:left'),h3('Espèce en vedette'),
-      photo_card(photo$thumb_url,sp_list[ind[i]],paste('Observée dans',cnt,'sites'))
+      photo_card(photo$thumb_url,sp_list[ind[i]],paste('Observée dans',cnt,'sites'),photo$url)
       )
     })
   })
