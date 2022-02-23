@@ -9,13 +9,13 @@
 #' @importFrom shiny NS tagList 
 mod_site_lcbd_display_ui <- function(id){
   ns <- NS(id)
-  tagList(bootstrapPage(uiOutput(ns('plots'))))
+  tagList(bootstrapPage(uiOutput(ns('plots')),uiOutput(ns('photos'),style='display:flex;flex-wrap:wrap;width:100%')))
 }
 
 #' site_richness_display Server Functions
 #'
 #' @noRd 
-mod_site_lcbd_display_server <- function(id, sites, site, lcbd) {
+mod_site_lcbd_display_server <- function(id, sites, site, lcbd, species_data) {
   assertthat::assert_that(shiny::is.reactive(site))
   
   moduleServer(id, function(input, output, session){
@@ -28,7 +28,6 @@ mod_site_lcbd_display_server <- function(id, sites, site, lcbd) {
         value <- 100*lc[lc$campaign_type==i,'lcbd']
         comp <- 100/nrow(lcbd[lcbd$campaign_type==i,])
         plot_name <- paste0("species_category","_lcbd_", i)
-        #plot_output_list<-append(plot_output_list,list(plot_name=gauge_plot(i, "campaign_type", value, comp)))
         colors=rep('#ececec',nrow(lcbd))
         colors[lcc$site_code==site()]='#7bb5b1'
         if(value>comp){
@@ -50,6 +49,35 @@ mod_site_lcbd_display_server <- function(id, sites, site, lcbd) {
         ))
       }
       tagList(plot_output_list)
+      })
+    output$photos <- renderUI({
+        this <- species_data |> dplyr::filter(site_code==site()) |> dplyr::select(taxa_name) |> unique()
+        other <- species_data |> dplyr::filter(site_code!=site()) |> dplyr::select(taxa_name) |> unique()
+        unique_sp <- this$taxa_name[!(this$taxa_name %in% other$taxa_name)] |> head(4)
+        photos_output_list<-list()
+        if(length(unique_sp)>0){
+          photos_output_list<-lapply(unique_sp, function(p){
+            photo<-list()
+            phs<-c()
+            photo<-mapselector::get_species_photo(p)
+            photo_name<-paste0("photo_top_", p)
+            uiOutput(photo_name, style='flex:1')
+            output[[photo_name]]<-renderUI({
+              if(!is.null(photo$thumb_url)){
+                photo_card(url=photo$thumb_url,name=p)
+              }else{
+                photo_card(name=p)
+              }
+            })
+          })
+          if(length(photos_output_list)!=0){
+            photos_output_list=append(list('photos_title'=renderUI({
+              uiOutput('photos_title',style='flex:100%');
+              div(h3('Espèces observées uniquement sur ce site.'),class="frequent_species",style='flex:100%')
+              })),photos_output_list)
+          }
+      }
+      tagList(photos_output_list)
     })
   })
 }

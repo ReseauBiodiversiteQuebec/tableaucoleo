@@ -52,7 +52,7 @@ mod_campaign_display_server <- function(id, region, dl_sites_df, site_env){
 
     si <- reactive({site_env |> dplyr::filter(site_code==region()) |> dplyr::select(GHMTS,bio5,bio6,bio12) |> 
         dplyr::mutate(bio5=bio5*0.1-273.15,bio6=bio6*0.1-273.15,bio12=bio12*0.1) |>
-        dplyr::rename('Indice de modifications humaines'=GHMTS, 'Température moyenne du mois le plus chaud (C)'=bio5, 'Température moyenne du mois le plus froid (C)'=bio6,'Précipitation annuelle (kg/m²)'=bio12) |> 
+        dplyr::rename('Indice de modifications humaines'=GHMTS, 'Température moyenne du mois le plus chaud (°C)'=bio5, 'Température moyenne du mois le plus froid (°C)'=bio6,'Précipitation annuelle (kg/m²)'=bio12) |> 
         tidyr::pivot_longer(everything(),names_to='variable')})
     
     output$env_tbl = renderTable(dplyr::select(si(),

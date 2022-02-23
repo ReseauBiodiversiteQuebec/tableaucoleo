@@ -36,22 +36,18 @@ mod_site_richness_campaign_display_server <- function(id, sites, site, rich, all
       if(nrow(rich())>0){
         phs=c()
         photos_output_list<-lapply(rich()$campaign_type, function(p){
-          sp_list <- rcoleo::get_species_list(site_code=site(),campaign_type=p)
-          i<-0;
-          photo<-list()
-          while(is.null(photo$thumb_url) & i<nrow(sp_list)){
-            i<-i+1
-            photo<-mapselector::get_species_photo(sp_list[i,'taxa_name'])
-          }
+          sp_list <- rcoleo::get_species_list(site_code=site(),campaign_type=p) |> dplyr::arrange(desc(nobs))
+          photo<-mapselector::get_species_photo(sp_list[1,'taxa_name'])
+          photo_name<-paste0("photo_top_", p)
+          uiOutput(photo_name)
           if(!is.null(photo$thumb_url)){
-            photo_name<-paste0("photo_top_", p)
-            if(! photo$thumb_url %in% phs) {
-              phs<-cbind(phs,photo$thumb_url)
-              uiOutput(photo_name)    
-              output[[photo_name]]<-renderUI({
-                photo_card(photo$thumb_url,sp_list[i,'taxa_name'])
-              })
-            }
+            output[[photo_name]]<-renderUI({
+              photo_card(photo$thumb_url,sp_list[1,'taxa_name'])
+            })
+          }else{
+            output[[photo_name]]<-renderUI({
+              photo_card(name=sp_list[1,'taxa_name'])
+            })
           }
         })
         if(length(photos_output_list)!=0){

@@ -145,7 +145,8 @@ app_server <- function(input, output, session ){
   mod_site_lcbd_display_server("site_lcbd",
                                      sites = downloaded_sites_names,
                                      site = userclick$site_code,
-                                     lcbd = site_lcbd
+                                     lcbd = site_lcbd, 
+                                     species_data = species_data
   )
   
   # 
