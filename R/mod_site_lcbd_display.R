@@ -64,7 +64,7 @@ mod_site_lcbd_display_server <- function(id, sites, site, lcbd, species_data) {
             uiOutput(photo_name, style='flex:1')
             output[[photo_name]]<-renderUI({
               if(!is.null(photo$thumb_url)){
-                photo_card(url=photo$thumb_url,name=p)
+                photo_card(url=photo$thumb_url,name=p,href=photo$url)
               }else{
                 photo_card(name=p)
               }
