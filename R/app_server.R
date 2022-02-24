@@ -149,6 +149,7 @@ app_server <- function(input, output, session ){
                                      species_data = species_data
   )
   
+  mod_sunburst_site_server("sunburst_site",site = userclick$site_code, species_data, FALSE)
   # 
   #   
   mod_modal_make_server("modal_make_ui_1",
@@ -165,10 +166,12 @@ app_server <- function(input, output, session ){
                                  mod_environment_display_ui("siteenv")),
                         tabPanel(title = "Projections climatiques",
                                  mod_ouranos_display_ui("projection")),
-                        tabPanel(title = "Espèces observées",
+                        tabPanel(title = "Espèces",
                                  mod_site_richness_display_ui("site_richness_campaign", this_rich_campaign)),
-                        tabPanel(title = 'Analyse de la composition',
+                        tabPanel(title = 'Composition',
                                  mod_site_lcbd_display_ui("site_lcbd")),
+                        tabPanel(title = 'Hiérarchie taxonomique',
+                                 mod_sunburst_site_ui("sunburst_site")),
                         tabPanel(title = "Comparer avec d'autres sites",
                                  mod_site_comparison_display_ui("site_comparison", site_select_options))
   )

@@ -11,7 +11,7 @@ sunburst_create_data <- function(species_data, refresh=FALSE){
     long_hier <- taxo |> tidyr::separate_rows(classification_path,sep="\\|")
     sun_data <- long_hier |> 
       dplyr::group_by(classification_path) |> 
-      dplyr::summarise(n=dplyr::n())
+      dplyr::summarise(n=dplyr::n(), names = paste0(submitted_name, collapse = ","))
     for (i in 1:nrow(sun_data)){
       s <- as.character(sun_data[i,'classification_path'])
       sp <- long_hier |> dplyr::filter(classification_path==s) |> dplyr::select(submitted_name)

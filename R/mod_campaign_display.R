@@ -49,14 +49,27 @@ mod_campaign_display_server <- function(id, region, dl_sites_df, site_env){
     output$obs_tbl = renderTable(dplyr::select(to_show(),
                                                Type = ico, `Année` = yr, Nombre = count),
                                  sanitize.text.function = function(x) x)
-
-    si <- reactive({site_env |> dplyr::filter(site_code==region()) |> dplyr::select(GHMTS,bio5,bio6,bio12) |> 
-        dplyr::mutate(bio5=bio5*0.1-273.15,bio6=bio6*0.1-273.15,bio12=bio12*0.1) |>
-        dplyr::rename('Indice de modifications humaines'=GHMTS, 'Température moyenne du mois le plus chaud (°C)'=bio5, 'Température moyenne du mois le plus froid (°C)'=bio6,'Précipitation annuelle (kg/m²)'=bio12) |> 
-        tidyr::pivot_longer(everything(),names_to='variable')})
     
-    output$env_tbl = renderTable(dplyr::select(si(),
-                                               Variable=variable, `Valeur` = value),
+    se <- site_env |> dplyr::select(site_code,GHMTS,bio5,bio6,bio12) |> 
+      dplyr::mutate(bio5=bio5*0.1-273.15,bio6=bio6*0.1-273.15,bio12=bio12*0.1)
+    
+    si <- reactive({
+      se |>
+        dplyr::filter(site_code==region()) |>
+        dplyr::select(-site_code) |>
+        dplyr::rename('Indice de modifications humaines'=GHMTS, 'Température moyenne du mois le plus chaud (°C)'=bio5, 'Température moyenne du mois le plus froid (°C)'=bio6,'Précipitation annuelle (kg/m²)'=bio12) |> 
+        tidyr::pivot_longer(everything(),names_to='variable')
+      })
+
+    me <- se |> dplyr::summarise('Indice de modifications humaines'=mean(GHMTS,na.rm=TRUE),'Température moyenne du mois le plus chaud (°C)'=mean(bio5),'Température moyenne du mois le plus froid (°C)'=mean(bio6),'Précipitation annuelle (kg/m²)'=mean(bio12)) |> 
+      tidyr::pivot_longer(everything(),names_to='Var',values_to="Moyenne")
+
+    
+    table <- reactive({
+      si() |> dplyr::left_join(me, by=c("variable"="Var")) |> dplyr::select(Variable=variable, `Valeur` = value, Moyenne) 
+    })
+    output$env_tbl = renderTable(data.frame(dplyr::select(table(),
+                                               `Variable`=Variable, `Valeur`=Valeur, `Moyenne`=Moyenne)),
                                  sanitize.text.function = function(x) x)
         
     plot_one_point <- function(dl_sites, chosen){
