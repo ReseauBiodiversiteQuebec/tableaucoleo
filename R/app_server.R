@@ -9,10 +9,10 @@ app_server <- function(input, output, session ){
   
   # sites -------------------------------------------------------------------
   sf::sf_use_s2(FALSE)
-  downloaded_sites=rcoleo::get_gen('/sites_with_campaigns')
+  downloaded_sites=rcoleo::get_gen('/sites_with_campaigns') |> dplyr::filter(number_of_campaigns>0) |> dplyr::rename(cell.name=name)
   downloaded_sites$geom.coordinates <- lapply(downloaded_sites$geom.coordinates, 
                                           sf::st_point)
-  downloaded_sites <- sf::st_as_sf(downloaded_sites) |> dplyr::filter(number_of_campaigns>0)
+  downloaded_sites <- sf::st_as_sf(downloaded_sites) 
 
     refresh<-FALSE
   
